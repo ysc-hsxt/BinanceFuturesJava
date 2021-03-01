@@ -632,6 +632,7 @@ class RestApiRequestImpl {
         request.jsonParser = (jsonWrapper -> {
             Order result = new Order();
             result.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+            result.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
             result.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
             result.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
             result.setOrderId(jsonWrapper.getLong("orderId"));
@@ -642,9 +643,13 @@ class RestApiRequestImpl {
             result.setPositionSide(jsonWrapper.getString("positionSide"));
             result.setStatus(jsonWrapper.getString("status"));
             result.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
             result.setSymbol(jsonWrapper.getString("symbol"));
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
-            result.setType(jsonWrapper.getString("type"));
+            result.setOrigType(jsonWrapper.getString("origType"));
+            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
             return result;

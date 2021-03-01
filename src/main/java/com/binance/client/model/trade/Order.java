@@ -31,7 +31,7 @@ public class Order {
 
     private BigDecimal stopPrice;
 
-    private String closePosition;//TODO
+    private Boolean closePosition;//TODO
 
     private String symbol;
 
@@ -39,24 +39,55 @@ public class Order {
 
     private String type;
 
+    private String origType;
+
+    private BigDecimal activatePrice;
+
+    private BigDecimal priceRate;
+
     private Long updateTime;
 
     private String workingType;
 
-    private String priceProtect; //TODO
+    private Boolean priceProtect; //TODO
 
+    public String getOrigType() {
+        return origType;
+    }
+
+    public void setOrigType(String origType) {
+        this.origType = origType;
+    }
+
+    public BigDecimal getActivatePrice() {
+        return activatePrice;
+    }
+
+    public void setActivatePrice(BigDecimal activatePrice) {
+        this.activatePrice = activatePrice;
+    }
+
+    public BigDecimal getPriceRate() {
+        return priceRate;
+    }
+
+    public void setPriceRate(BigDecimal priceRate) {
+        this.priceRate = priceRate;
+    }
+
+    public void setPriceProtect(Boolean priceProtect) {
+        this.priceProtect = priceProtect;
+    }
 
     public BigDecimal getCumQty() { return cumQty; }
 
     public void setCumQty(BigDecimal cumQty) { this.cumQty = cumQty; }
 
-    public String getClosePosition() { return closePosition; }
+    public Boolean getClosePosition() { return closePosition; }
 
-    public void setClosePosition(String closePosition) { this.closePosition = closePosition; }
+    public void setClosePosition(Boolean closePosition) { this.closePosition = closePosition; }
 
-    public String getPriceProtect() { return priceProtect; }
-
-    public void setPriceProtect(String priceProtect) { this.priceProtect = priceProtect; }
+    public Boolean getPriceProtect() { return priceProtect; }
 
     public String getClientOrderId() {
         return clientOrderId;
