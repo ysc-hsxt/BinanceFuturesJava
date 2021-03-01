@@ -8,35 +8,65 @@ import java.math.BigDecimal;
 
 public class AccountInformation {
 
-    private Boolean canDeposit;
+    private BigDecimal feeTier;
 
     private Boolean canTrade;
 
+    private Boolean canDeposit;
+
     private Boolean canWithdraw;
 
-    private BigDecimal feeTier;
-
-    private BigDecimal maxWithdrawAmount;
+    private Long updateTime;
 
     private BigDecimal totalInitialMargin;
 
     private BigDecimal totalMaintMargin;
 
-    private BigDecimal totalMarginBalance;
-
-    private BigDecimal totalOpenOrderInitialMargin;
-
-    private BigDecimal totalPositionInitialMargin;
+    private BigDecimal totalWalletBalance;
 
     private BigDecimal totalUnrealizedProfit;
 
-    private BigDecimal totalWalletBalance;
+    private BigDecimal totalMarginBalance;
 
-    private Long updateTime;
+    private BigDecimal totalPositionInitialMargin;
+
+    private BigDecimal totalOpenOrderInitialMargin;
+
+    private BigDecimal totalCrossWalletBalance;//TODO
+
+    private BigDecimal totalCrossUnPnl;
+
+    private BigDecimal availableBalance;
+
+    private BigDecimal maxWithdrawAmount;
 
     private List<Asset> assets;
 
     private List<Position> positions;
+
+    public BigDecimal getTotalCrossWalletBalance() {
+        return totalCrossWalletBalance;
+    }
+
+    public void setTotalCrossWalletBalance(BigDecimal totalCrossWalletBalance) {
+        this.totalCrossWalletBalance = totalCrossWalletBalance;
+    }
+
+    public BigDecimal getTotalCrossUnPnl() {
+        return totalCrossUnPnl;
+    }
+
+    public void setTotalCrossUnPnl(BigDecimal totalCrossUnPnl) {
+        this.totalCrossUnPnl = totalCrossUnPnl;
+    }
+
+    public BigDecimal getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(BigDecimal availableBalance) {
+        this.availableBalance = availableBalance;
+    }
 
     public Boolean getCanDeposit() {
         return canDeposit;

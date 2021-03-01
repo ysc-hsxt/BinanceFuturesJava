@@ -606,8 +606,8 @@ class RestApiRequestImpl {
     }
 
     RestApiRequest<Order> postOrder(String symbol, OrderSide side, PositionSide positionSide, OrderType orderType,
-            TimeInForce timeInForce, String quantity, String price, String reduceOnly,
-            String newClientOrderId, String stopPrice, WorkingType workingType, NewOrderRespType newOrderRespType) {
+            TimeInForce timeInForce, String quantity, String reduceOnly, String price, String newClientOrderId,
+             String stopPrice, String closePosition, String activationPrice, String callBackRate, WorkingType workingType, String priceProtect, NewOrderRespType newOrderRespType) {
         RestApiRequest<Order> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
                 .putToUrl("symbol", symbol)
@@ -620,7 +620,11 @@ class RestApiRequestImpl {
                 .putToUrl("reduceOnly", reduceOnly)
                 .putToUrl("newClientOrderId", newClientOrderId)
                 .putToUrl("stopPrice", stopPrice)
+                .putToUrl("closePosition", closePosition)
+                .putToUrl("activationPrice", activationPrice)
+                .putToUrl("callBackRate", callBackRate)
                 .putToUrl("workingType", workingType)
+                .putToUrl("priceProtect", priceProtect)
                 .putToUrl("newOrderRespType", newOrderRespType);
 
         request.request = createRequestByPostWithSignature("/fapi/v1/order", builder);
@@ -967,6 +971,9 @@ class RestApiRequestImpl {
         request.jsonParser = (jsonWrapper -> {
             AccountInformation result = new AccountInformation();
             result.setCanDeposit(jsonWrapper.getBoolean("canDeposit"));
+            result.setTotalCrossWalletBalance(jsonWrapper.getBigDecimal("totalCrossWalletBalance"));
+            result.setTotalCrossUnPnl(jsonWrapper.getBigDecimal("totalCrossUnPnl"));
+            result.setAvailableBalance(jsonWrapper.getBigDecimal("availableBalance"));
             result.setCanTrade(jsonWrapper.getBoolean("canTrade"));
             result.setCanWithdraw(jsonWrapper.getBoolean("canWithdraw"));
             result.setFeeTier(jsonWrapper.getBigDecimal("feeTier"));
@@ -985,6 +992,7 @@ class RestApiRequestImpl {
             assetArray.forEach((item) -> {
                 Asset element = new Asset();
                 element.setAsset(item.getString("asset"));
+                element.setWalletBalance(item.getBigDecimal("walletBalance"));
                 element.setInitialMargin(item.getBigDecimal("initialMargin"));
                 element.setMaintMargin(item.getBigDecimal("maintMargin"));
                 element.setMarginBalance(item.getBigDecimal("marginBalance"));
@@ -992,6 +1000,9 @@ class RestApiRequestImpl {
                 element.setOpenOrderInitialMargin(item.getBigDecimal("openOrderInitialMargin"));
                 element.setPositionInitialMargin(item.getBigDecimal("positionInitialMargin"));
                 element.setUnrealizedProfit(item.getBigDecimal("unrealizedProfit"));
+                element.setCrossWalletBalance(item.getBigDecimal("crossWalletBalance"));
+                element.setCrossUnPnl(item.getBigDecimal("crossUnPnl"));
+                element.setAvailableBalance(item.getBigDecimal("availableBalance"));
                 assetList.add(element);
             });
             result.setAssets(assetList);
@@ -1011,6 +1022,7 @@ class RestApiRequestImpl {
                 element.setEntryPrice(item.getString("entryPrice"));
                 element.setMaxNotional(item.getString("maxNotional"));
                 element.setPositionSide(item.getString("positionSide"));
+                element.setPositionAmt(item.getBigDecimal("positionAmt"));
                 positionList.add(element);
             });
             result.setPositions(positionList);

@@ -9,6 +9,8 @@ public class Order {
 
     private String clientOrderId;
 
+    private BigDecimal cumQty;//TODO
+
     private BigDecimal cumQuote;
 
     private BigDecimal executedQty;
@@ -29,6 +31,8 @@ public class Order {
 
     private BigDecimal stopPrice;
 
+    private String closePosition;//TODO
+
     private String symbol;
 
     private String timeInForce;
@@ -38,6 +42,21 @@ public class Order {
     private Long updateTime;
 
     private String workingType;
+
+    private String priceProtect; //TODO
+
+
+    public BigDecimal getCumQty() { return cumQty; }
+
+    public void setCumQty(BigDecimal cumQty) { this.cumQty = cumQty; }
+
+    public String getClosePosition() { return closePosition; }
+
+    public void setClosePosition(String closePosition) { this.closePosition = closePosition; }
+
+    public String getPriceProtect() { return priceProtect; }
+
+    public void setPriceProtect(String priceProtect) { this.priceProtect = priceProtect; }
 
     public String getClientOrderId() {
         return clientOrderId;
@@ -170,10 +189,10 @@ public class Order {
     @Override
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-                .append("clientOrderId", clientOrderId).append("cumQuote", cumQuote).append("executedQty", executedQty)
+                .append("clientOrderId", clientOrderId).append("cumQty", cumQty).append("cumQuote", cumQuote).append("executedQty", executedQty)
                 .append("orderId", orderId).append("origQty", origQty).append("price", price)
                 .append("reduceOnly", reduceOnly).append("side", side).append("positionSide", positionSide).append("status", status)
-                .append("stopPrice", stopPrice).append("symbol", symbol).append("timeInForce", timeInForce)
-                .append("type", type).append("updateTime", updateTime).append("workingType", workingType).toString();
+                .append("stopPrice", stopPrice).append("closePosition", closePosition).append("symbol", symbol).append("timeInForce", timeInForce)
+                .append("type", type).append("updateTime", updateTime).append("priceProtect", priceProtect).append("workingType", workingType).toString();
     }
 }

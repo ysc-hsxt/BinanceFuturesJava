@@ -7,27 +7,38 @@ import java.math.BigDecimal;
 
 public class Position {
 
-    private Boolean isolated;
-
-    private BigDecimal leverage;
+    private String symbol;
 
     private BigDecimal initialMargin;
 
     private BigDecimal maintMargin;
 
-    private BigDecimal openOrderInitialMargin;
+    private BigDecimal unrealizedProfit;
 
     private BigDecimal positionInitialMargin;
 
-    private String symbol;
+    private BigDecimal openOrderInitialMargin;
 
-    private BigDecimal unrealizedProfit;
+    private BigDecimal leverage;
+
+    private Boolean isolated;
 
     private String entryPrice;
 
     private String maxNotional;
 
     private String positionSide;
+
+    private BigDecimal positionAmt;//TODO
+
+
+    public BigDecimal getPositionAmt() {
+        return positionAmt;
+    }
+
+    public void setPositionAmt(BigDecimal positionAmt) {
+        this.positionAmt = positionAmt;
+    }
 
     public Boolean getIsolated() {
         return isolated;
