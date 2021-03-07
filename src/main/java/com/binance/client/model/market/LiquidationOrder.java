@@ -17,6 +17,8 @@ public class LiquidationOrder {
 
     private BigDecimal averagePrice;
 
+    private String status;
+
     private String timeInForce;
 
     private String type;
@@ -24,6 +26,14 @@ public class LiquidationOrder {
     private String side;
 
     private Long time;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getSymbol() {
         return symbol;
@@ -101,7 +111,7 @@ public class LiquidationOrder {
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("symbol", symbol)
                 .append("price", price).append("origQty", origQty).append("executedQty", executedQty)
-                .append("averagePrice", averagePrice).append("timeInForce", timeInForce).append("type", type)
+                .append("averagePrice", averagePrice).append("status", status).append("timeInForce", timeInForce).append("type", type)
                 .append("side", side).append("time", time).toString();
     }
 }

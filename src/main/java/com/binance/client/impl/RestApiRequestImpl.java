@@ -368,7 +368,104 @@ class RestApiRequestImpl {
                 element.setNumTrades(item.getIntegerAt(8));
                 element.setTakerBuyBaseAssetVolume(item.getBigDecimalAt(9));
                 element.setTakerBuyQuoteAssetVolume(item.getBigDecimalAt(10));
-                element.setIgnore(item.getBigDecimalAt(11));
+                result.add(element);
+            });
+
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<Candlestick>> getContinuousCandlesticks(String pair, ContractType contractType, CandlestickInterval interval, Long startTime,
+                                                     Long endTime, Integer limit) {
+        RestApiRequest<List<Candlestick>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("pair", pair)
+                .putToUrl("contractType", contractType)
+                .putToUrl("interval", interval)
+                .putToUrl("startTime", startTime)
+                .putToUrl("endTime", endTime)
+                .putToUrl("limit", limit);
+        request.request = createRequestByGet("/fapi/v1/continuousKlines", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<Candlestick> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEachAsArray((item) -> {
+                Candlestick element = new Candlestick();
+                element.setOpenTime(item.getLongAt(0));
+                element.setOpen(item.getBigDecimalAt(1));
+                element.setHigh(item.getBigDecimalAt(2));
+                element.setLow(item.getBigDecimalAt(3));
+                element.setClose(item.getBigDecimalAt(4));
+                element.setVolume(item.getBigDecimalAt(5));
+                element.setCloseTime(item.getLongAt(6));
+                element.setQuoteAssetVolume(item.getBigDecimalAt(7));
+                element.setNumTrades(item.getIntegerAt(8));
+                element.setTakerBuyBaseAssetVolume(item.getBigDecimalAt(9));
+                element.setTakerBuyQuoteAssetVolume(item.getBigDecimalAt(10));
+                result.add(element);
+            });
+
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<Candlestick>> getIndexPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                                Long endTime, Integer limit) {
+        RestApiRequest<List<Candlestick>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("pair", pair)
+                .putToUrl("interval", interval)
+                .putToUrl("startTime", startTime)
+                .putToUrl("endTime", endTime)
+                .putToUrl("limit", limit);
+        request.request = createRequestByGet("/fapi/v1/indexPriceKlines", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<Candlestick> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEachAsArray((item) -> {
+                Candlestick element = new Candlestick();
+                element.setOpenTime(item.getLongAt(0));
+                element.setOpen(item.getBigDecimalAt(1));
+                element.setHigh(item.getBigDecimalAt(2));
+                element.setLow(item.getBigDecimalAt(3));
+                element.setClose(item.getBigDecimalAt(4));
+                element.setCloseTime(item.getLongAt(6));
+                element.setNumTrades(item.getIntegerAt(8));
+                result.add(element);
+            });
+
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<Candlestick>> getMarkPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                                Long endTime, Integer limit) {
+        RestApiRequest<List<Candlestick>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("pair", pair)
+                .putToUrl("interval", interval)
+                .putToUrl("startTime", startTime)
+                .putToUrl("endTime", endTime)
+                .putToUrl("limit", limit);
+        request.request = createRequestByGet("/fapi/v1/markPriceKlines", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<Candlestick> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEachAsArray((item) -> {
+                Candlestick element = new Candlestick();
+                element.setOpenTime(item.getLongAt(0));
+                element.setOpen(item.getBigDecimalAt(1));
+                element.setHigh(item.getBigDecimalAt(2));
+                element.setLow(item.getBigDecimalAt(3));
+                element.setClose(item.getBigDecimalAt(4));
+                element.setCloseTime(item.getLongAt(6));
+                element.setNumTrades(item.getIntegerAt(8));
                 result.add(element);
             });
 
@@ -395,8 +492,10 @@ class RestApiRequestImpl {
                 MarkPrice element = new MarkPrice();
                 element.setSymbol(item.getString("symbol"));
                 element.setMarkPrice(item.getBigDecimal("markPrice"));
+                element.setIndexPrice(item.getBigDecimal("indexPrice"));
                 element.setLastFundingRate(item.getBigDecimal("lastFundingRate"));
                 element.setNextFundingTime(item.getLong("nextFundingTime"));
+                element.setInterestRate(item.getBigDecimal("interestRate"));
                 element.setTime(item.getLong("time"));
                 result.add(element);
             });
@@ -452,6 +551,7 @@ class RestApiRequestImpl {
                 element.setPriceChange(item.getBigDecimal("priceChange"));
                 element.setPriceChangePercent(item.getBigDecimal("priceChangePercent"));
                 element.setWeightedAvgPrice(item.getBigDecimal("weightedAvgPrice"));
+                element.setPrevClosePrice(item.getBigDecimal("prevClosePrice"));
                 element.setLastPrice(item.getBigDecimal("lastPrice"));
                 element.setLastQty(item.getBigDecimal("lastQty"));
                 element.setOpenPrice(item.getBigDecimal("openPrice"));
@@ -490,6 +590,7 @@ class RestApiRequestImpl {
                 SymbolPrice element = new SymbolPrice();
                 element.setSymbol(item.getString("symbol"));
                 element.setPrice(item.getBigDecimal("price"));
+                element.setTime(item.getLong("time"));
                 result.add(element);
             });
 
@@ -519,6 +620,7 @@ class RestApiRequestImpl {
                 element.setBidQty(item.getBigDecimal("bidQty"));
                 element.setAskPrice(item.getBigDecimal("askPrice"));
                 element.setAskQty(item.getBigDecimal("askQty"));
+                element.setTime(item.getLong("time"));
                 result.add(element);
             });
 
@@ -548,8 +650,9 @@ class RestApiRequestImpl {
                 element.setOrigQty(item.getBigDecimal("origQty"));
                 element.setExecutedQty(item.getBigDecimal("executedQty"));
                 element.setAveragePrice(item.getBigDecimal("averagePrice"));
+                element.setStatus(item.getString("status"));
                 element.setTimeInForce(item.getString("timeInForce"));
-                element.setType(item.getString("symbol"));
+                element.setType(item.getString("type"));
                 element.setSide(item.getString("side"));
                 element.setTime(item.getLong("time"));
                 result.add(element);
@@ -1195,6 +1298,27 @@ class RestApiRequestImpl {
 
         request.jsonParser = (jsonWrapper -> {
             String result = "Ok";
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<OpenInterest> getOpenInterest(String symbol) {
+        RestApiRequest<OpenInterest> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("symbol", symbol);
+
+
+        request.request = createRequestByGetWithSignature("/futures/data/openInterest", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            OpenInterest result = new OpenInterest();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEach((item) -> {
+                result.setSymbol(item.getString("symbol"));
+                result.setOpenInterest(item.getBigDecimal("openInterest"));
+                result.setTimestamp(item.getLong("timestamp"));
+            });
             return result;
         });
         return request;

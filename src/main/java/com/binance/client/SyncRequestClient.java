@@ -98,6 +98,30 @@ public interface SyncRequestClient {
     List<Candlestick> getCandlestick(String symbol, CandlestickInterval interval, Long startTime, Long endTime, Integer limit);
 
     /**
+     * Get Kline/candlestick bars for a specific contract type.
+     *
+     * @return Kline/candlestick bars for a specific contract type.
+     */
+    List<Candlestick> getContinuousCandlesticks(String pair, ContractType contractType, CandlestickInterval interval, Long startTime,
+                        Long endTime, Integer limit);
+
+    /**
+     * Get Kline/candlestick bars for the index price of a pair.
+     *
+     * @return Kline/candlestick bars for the index price of a pair.
+     */
+    List<Candlestick> getIndexPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                Long endTime, Integer limit);
+
+    /**
+     * Get Kline/candlestick bars for the mark price of a symbol.
+     *
+     * @return Kline/candlestick bars for the mark price of a symbol.
+     */
+    List<Candlestick> getMarkPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                Long endTime, Integer limit);
+
+    /**
      * Get mark price for a symbol.
      *
      * @return Mark price for a symbol.
@@ -303,6 +327,13 @@ public interface SyncRequestClient {
      * @return null.
      */
     String closeUserDataStream(String listenKey);
+
+    /**
+     * Get present open interest of a specific symbol.
+     *
+     * @return open interest of a specific symbol.
+     */
+    OpenInterest getOpenInterest(String symbol);
 
     /**
      * Open Interest Stat (MARKET DATA)

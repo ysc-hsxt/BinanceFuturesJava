@@ -49,6 +49,22 @@ public class SyncRequestImpl implements SyncRequestClient {
             Long endTime, Integer limit) {
         return RestApiInvoker.callSync(requestImpl.getCandlestick(symbol, interval, startTime, endTime, limit));
     }
+
+    @Override
+    public List<Candlestick> getContinuousCandlesticks(String pair, ContractType contractType, CandlestickInterval interval, Long startTime,
+                                                Long endTime, Integer limit){
+        return RestApiInvoker.callSync(requestImpl.getContinuousCandlesticks(pair, contractType, interval, startTime, endTime, limit));
+    }
+
+    public List<Candlestick> getIndexPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                       Long endTime, Integer limit){
+        return RestApiInvoker.callSync(requestImpl.getIndexPriceCandlesticks(pair, interval, startTime, endTime, limit));
+    }
+
+    public List<Candlestick> getMarkPriceCandlesticks(String pair, CandlestickInterval interval, Long startTime,
+                                                       Long endTime, Integer limit){
+        return RestApiInvoker.callSync(requestImpl.getMarkPriceCandlesticks(pair, interval, startTime, endTime, limit));
+    }
     
     @Override
     public List<MarkPrice> getMarkPrice(String symbol) {
@@ -194,6 +210,11 @@ public class SyncRequestImpl implements SyncRequestClient {
     @Override
     public String closeUserDataStream(String listenKey) {
         return RestApiInvoker.callSync(requestImpl.closeUserDataStream(listenKey));
+    }
+
+    @Override
+    public OpenInterest getOpenInterest(String symbol) {
+        return RestApiInvoker.callSync(requestImpl.getOpenInterest(symbol));
     }
 
     @Override
