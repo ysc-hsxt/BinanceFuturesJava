@@ -629,7 +629,7 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<List<LiquidationOrder>> getLiquidationOrders(String symbol, Long startTime, Long endTime,
+    RestApiRequest<List<LiquidationOrder>> getLiquidationOrders(String symbol, AutoCloseType autoCloseType, Long startTime, Long endTime,
                                                                 Integer limit) {
         RestApiRequest<List<LiquidationOrder>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
@@ -645,16 +645,27 @@ class RestApiRequestImpl {
 
             dataArray.forEach((item) -> {
                 LiquidationOrder element = new LiquidationOrder();
+                element.setOrderId(item.getLong("orderId"));
                 element.setSymbol(item.getString("symbol"));
+                element.setStatus(item.getString("status"));
+                element.setClientOrderId(item.getString("clientOrderId"));
                 element.setPrice(item.getBigDecimal("price"));
+                element.setAveragePrice(item.getBigDecimal("avgPrice"));
                 element.setOrigQty(item.getBigDecimal("origQty"));
                 element.setExecutedQty(item.getBigDecimal("executedQty"));
-                element.setAveragePrice(item.getBigDecimal("averagePrice"));
-                element.setStatus(item.getString("status"));
+                element.setCumQuote(item.getBigDecimal("cumQuote"));
                 element.setTimeInForce(item.getString("timeInForce"));
                 element.setType(item.getString("type"));
+                element.setReduceOnly(item.getBoolean("reduceOnly"));
+                element.setClosePosition(item.getBoolean("closePosition"));
                 element.setSide(item.getString("side"));
+                element.setPositionSide(item.getString("positionSide"));
+                element.setStopPrice(item.getBigDecimal("stopPrice"));
+                element.setWorkingType(item.getString("workingType"));
+                element.setOrigType(item.getString("origType"));
                 element.setTime(item.getLong("time"));
+                element.setUpdateTime(item.getLong("updateTime"));
+
                 result.add(element);
             });
 
