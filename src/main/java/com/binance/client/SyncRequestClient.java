@@ -340,34 +340,34 @@ public interface SyncRequestClient {
      *
      * @return Open Interest Stat.
      */
-    List<OpenInterestStat> getOpenInterestStat(String symbol, PeriodType period, Long startTime, Long endTime, Integer limit);
+    List<OpenInterestStat> getOpenInterestStat(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
     /**
      * Top Trader Long/Short Ratio (Accounts) (MARKET DATA)
      *
      * @return Top Trader Long/Short Ratio (Accounts).
      */
-    List<CommonLongShortRatio> getTopTraderAccountRatio(String symbol, PeriodType period, Long startTime, Long endTime, Integer limit);
+    List<CommonLongShortRatio> getTopTraderAccountRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
     /**
      * Top Trader Long/Short Ratio (Positions) (MARKET DATA)
      *
      * @return Top Trader Long/Short Ratio (Positions).
      */
-    List<CommonLongShortRatio> getTopTraderPositionRatio(String symbol, PeriodType period, Long startTime, Long endTime, Integer limit);
+    List<CommonLongShortRatio> getTopTraderPositionRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
     /**
      * Long/Short Ratio (MARKET DATA)
      *
      * @return global Long/Short Ratio. 
      */
-    List<CommonLongShortRatio> getGlobalAccountRatio(String symbol, PeriodType period, Long startTime, Long endTime, Integer limit);
+    List<CommonLongShortRatio> getGlobalAccountRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
     /**
      * Taker Long/Short Ratio (MARKET DATA)
      *
      * @return Taker Long/Short Ratio. 
      */
-    List<TakerLongShortStat> getTakerLongShortRatio(String symbol, PeriodType period, Long startTime, Long endTime, Integer limit);
+    List<TakerLongShortStat> getTakerLongShortRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
 }
