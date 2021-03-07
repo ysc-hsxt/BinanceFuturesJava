@@ -127,12 +127,12 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
 
     @Override
-    public ResponseResult changePositionSide(boolean dual) {
+    public ResponseResult changePositionSide(String dual) {
         return RestApiInvoker.callSync(requestImpl.changePositionSide(dual));
     }
 
     @Override
-    public ResponseResult changeMarginType(String symbolName, String marginType) {
+    public ResponseResult changeMarginType(String symbolName, MarginType marginType) {
         return RestApiInvoker.callSync(requestImpl.changeMarginType(symbolName, marginType));
     }
 
@@ -153,10 +153,19 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
 
     @Override
+    public JSONObject autoCancelAllOrders(String symbol, Long countdownTime) {
+        return RestApiInvoker.callSync(requestImpl.autoCancelAllOrders(symbol, countdownTime));
+    }
+
+    @Override
     public Order getOrder(String symbol, Long orderId, String origClientOrderId) {
         return RestApiInvoker.callSync(requestImpl.getOrder(symbol, orderId, origClientOrderId));
     }
-    
+
+    public Order getOpenOrder(String symbol, Long orderId, String origClientOrderId){
+        return RestApiInvoker.callSync(requestImpl.getOpenOrder(symbol, orderId, origClientOrderId));
+    }
+
     @Override
     public List<Order> getOpenOrders(String symbol) {
         return RestApiInvoker.callSync(requestImpl.getOpenOrders(symbol));
@@ -183,8 +192,8 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
     
     @Override
-    public List<PositionRisk> getPositionRisk() {
-        return RestApiInvoker.callSync(requestImpl.getPositionRisk());
+    public List<PositionRisk> getPositionRisk(String symbol) {
+        return RestApiInvoker.callSync(requestImpl.getPositionRisk(symbol));
     }
     
     @Override

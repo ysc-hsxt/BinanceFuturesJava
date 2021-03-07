@@ -32,7 +32,7 @@ public class AccountInformation {
 
     private BigDecimal totalOpenOrderInitialMargin;
 
-    private BigDecimal totalCrossWalletBalance;//TODO
+    private BigDecimal totalCrossWalletBalance;
 
     private BigDecimal totalCrossUnPnl;
 
@@ -190,13 +190,12 @@ public class AccountInformation {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("canDeposit", canDeposit)
-                .append("canTrade", canTrade).append("canWithdraw", canWithdraw).append("feeTier", feeTier)
-                .append("maxWithdrawAmount", maxWithdrawAmount).append("totalInitialMargin", totalInitialMargin)
-                .append("totalMaintMargin", totalMaintMargin).append("totalMarginBalance", totalMarginBalance)
-                .append("totalOpenOrderInitialMargin", totalOpenOrderInitialMargin)
-                .append("totalPositionInitialMargin", totalPositionInitialMargin)
-                .append("totalUnrealizedProfit", totalUnrealizedProfit).append("totalWalletBalance", totalWalletBalance)
-                .append("updateTime", updateTime).append("assets", assets).append("positions", positions).toString();
+        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("feeTier", feeTier).append("canTrade", canTrade)
+                .append("canDeposit", canDeposit).append("canWithdraw", canWithdraw).append("updateTime", updateTime)
+                .append("totalInitialMargin", totalInitialMargin).append("totalMaintMargin", totalMaintMargin)
+                .append("totalWalletBalance", totalWalletBalance).append("totalUnrealizedProfit", totalUnrealizedProfit).append("totalMarginBalance", totalMarginBalance)
+                .append("totalPositionInitialMargin", totalPositionInitialMargin).append("totalOpenOrderInitialMargin", totalOpenOrderInitialMargin)
+                .append("totalCrossWalletBalance", totalCrossWalletBalance).append("totalCrossUnPnl", totalCrossUnPnl).append("availableBalance", availableBalance)
+                .append("maxWithdrawAmount", maxWithdrawAmount).append("assets", assets).append("positions", positions).toString();
     }
 }

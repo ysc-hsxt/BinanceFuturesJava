@@ -9,13 +9,15 @@ public class Order {
 
     private String clientOrderId;
 
-    private BigDecimal cumQty;//TODO
+    private BigDecimal cumQty;
 
     private BigDecimal cumQuote;
 
     private BigDecimal executedQty;
 
     private Long orderId;
+
+    private BigDecimal avgPrice;
 
     private BigDecimal origQty;
 
@@ -31,7 +33,7 @@ public class Order {
 
     private BigDecimal stopPrice;
 
-    private Boolean closePosition;//TODO
+    private Boolean closePosition;
 
     private String symbol;
 
@@ -49,7 +51,7 @@ public class Order {
 
     private String workingType;
 
-    private Boolean priceProtect; //TODO
+    private Boolean priceProtect;
 
     public String getOrigType() {
         return origType;
@@ -185,6 +187,14 @@ public class Order {
         this.symbol = symbol;
     }
 
+    public BigDecimal getAvgPrice() {
+        return avgPrice;
+    }
+
+    public void setAvgPrice(BigDecimal avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
     public String getTimeInForce() {
         return timeInForce;
     }
@@ -221,7 +231,7 @@ public class Order {
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
                 .append("clientOrderId", clientOrderId).append("cumQty", cumQty).append("cumQuote", cumQuote).append("executedQty", executedQty)
-                .append("orderId", orderId).append("origQty", origQty).append("price", price)
+                .append("orderId", orderId).append("avgPrice", avgPrice).append("origQty", origQty).append("price", price)
                 .append("reduceOnly", reduceOnly).append("side", side).append("positionSide", positionSide).append("status", status)
                 .append("stopPrice", stopPrice).append("closePosition", closePosition).append("symbol", symbol).append("timeInForce", timeInForce)
                 .append("type", type).append("updateTime", updateTime).append("priceProtect", priceProtect).append("workingType", workingType).toString();

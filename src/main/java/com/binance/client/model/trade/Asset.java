@@ -124,10 +124,11 @@ public class Asset {
     @Override
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("asset", asset)
-                .append("initialMargin", initialMargin).append("maintMargin", maintMargin)
-                .append("marginBalance", marginBalance).append("maxWithdrawAmount", maxWithdrawAmount)
-                .append("openOrderInitialMargin", openOrderInitialMargin)
-                .append("positionInitialMargin", positionInitialMargin).append("unrealizedProfit", unrealizedProfit)
+                .append("walletBalance", walletBalance).append("unrealizedProfit", unrealizedProfit)
+                .append("marginBalance", marginBalance).append("maintMargin", maintMargin).append("initialMargin", initialMargin)
+                .append("positionInitialMargin", positionInitialMargin).append("openOrderInitialMargin", openOrderInitialMargin)
+                .append("crossWalletBalance", crossWalletBalance).append("crossUnPnl", crossUnPnl)
+                .append("availableBalance", availableBalance).append("maxWithdrawAmount", maxWithdrawAmount)
                 .toString();
     }
 }

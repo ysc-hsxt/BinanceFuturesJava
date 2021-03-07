@@ -684,22 +684,29 @@ class RestApiRequestImpl {
                 } else {
                     Order o = new Order();
                     JSONObject jsonObj = (JSONObject) obj;
-                    o.setClientOrderId(jsonObj.getString("clientOrderId"));
-                    o.setCumQuote(jsonObj.getBigDecimal("cumQuote"));
-                    o.setExecutedQty(jsonObj.getBigDecimal("executedQty"));
-                    o.setOrderId(jsonObj.getLong("orderId"));
-                    o.setOrigQty(jsonObj.getBigDecimal("origQty"));
-                    o.setPrice(jsonObj.getBigDecimal("price"));
-                    o.setReduceOnly(jsonObj.getBoolean("reduceOnly"));
-                    o.setSide(jsonObj.getString("side"));
-                    o.setPositionSide(jsonObj.getString("positionSide"));
-                    o.setStatus(jsonObj.getString("status"));
-                    o.setStopPrice(jsonObj.getBigDecimal("stopPrice"));
-                    o.setSymbol(jsonObj.getString("symbol"));
-                    o.setTimeInForce(jsonObj.getString("timeInForce"));
-                    o.setType(jsonObj.getString("type"));
-                    o.setUpdateTime(jsonObj.getLong("updateTime"));
-                    o.setWorkingType(jsonObj.getString("workingType"));
+                    o.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+                    o.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
+                    o.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
+                    o.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
+                    o.setOrderId(jsonWrapper.getLong("orderId"));
+                    o.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
+                    o.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
+                    o.setPrice(jsonWrapper.getBigDecimal("price"));
+                    o.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+                    o.setSide(jsonWrapper.getString("side"));
+                    o.setPositionSide(jsonWrapper.getString("positionSide"));
+                    o.setStatus(jsonWrapper.getString("status"));
+                    o.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+                    o.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+                    o.setSymbol(jsonWrapper.getString("symbol"));
+                    o.setTimeInForce(jsonWrapper.getString("timeInForce"));
+                    o.setType(jsonWrapper.getString("type"));
+                    o.setOrigType(jsonWrapper.getString("origType"));
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                    o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                    o.setUpdateTime(jsonWrapper.getLong("updateTime"));
+                    o.setWorkingType(jsonWrapper.getString("workingType"));
+                    o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
                     listResult.add(o);
                 }
             });
@@ -739,6 +746,7 @@ class RestApiRequestImpl {
             result.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
             result.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
             result.setOrderId(jsonWrapper.getLong("orderId"));
+            result.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
             result.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
             result.setPrice(jsonWrapper.getBigDecimal("price"));
             result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
@@ -749,21 +757,22 @@ class RestApiRequestImpl {
             result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
             result.setSymbol(jsonWrapper.getString("symbol"));
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
+            result.setType(jsonWrapper.getString("type"));
             result.setOrigType(jsonWrapper.getString("origType"));
             result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
             result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
-            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
             return result;
         });
         return request;
     }
 
-    RestApiRequest<ResponseResult> changePositionSide(boolean dual) {
+    RestApiRequest<ResponseResult> changePositionSide(String dual) {
         RestApiRequest<ResponseResult> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
-                .putToUrl("dualSidePosition", String.valueOf(dual));
+                .putToUrl("dualSidePosition", dual);
         request.request = createRequestByPostWithSignature("/fapi/v1/positionSide/dual", builder);
 
         request.jsonParser = (jsonWrapper -> {
@@ -775,7 +784,7 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<ResponseResult> changeMarginType(String symbolName, String marginType) {
+    RestApiRequest<ResponseResult> changeMarginType(String symbolName, MarginType marginType) {
         RestApiRequest<ResponseResult> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
                 .putToUrl("symbol", symbolName)
@@ -791,10 +800,10 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<JSONObject> addPositionMargin(String symbolName, int type, String amount, PositionSide positionSide) {
+    RestApiRequest<JSONObject> addPositionMargin(String symbol, Integer type, String amount, PositionSide positionSide) {
         RestApiRequest<JSONObject> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
-                .putToUrl("symbol", symbolName)
+                .putToUrl("symbol", symbol)
                 .putToUrl("amount", amount)
                 .putToUrl("positionSide", positionSide.name())
                 .putToUrl("type", type);
@@ -811,10 +820,10 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<List<WalletDeltaLog>> getPositionMarginHistory(String symbolName, int type, long startTime, long endTime, int limit) {
+    RestApiRequest<List<WalletDeltaLog>> getPositionMarginHistory(String symbol, Integer type, Long startTime, Long endTime, Integer limit) {
         RestApiRequest<List<WalletDeltaLog>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
-                .putToUrl("symbol", symbolName)
+                .putToUrl("symbol", symbol)
                 .putToUrl("type", type)
                 .putToUrl("startTime", startTime)
                 .putToUrl("endTime", endTime)
@@ -863,9 +872,11 @@ class RestApiRequestImpl {
         request.jsonParser = (jsonWrapper -> {
             Order result = new Order();
             result.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+            result.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
             result.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
             result.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
             result.setOrderId(jsonWrapper.getLong("orderId"));
+            result.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
             result.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
             result.setPrice(jsonWrapper.getBigDecimal("price"));
             result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
@@ -873,11 +884,16 @@ class RestApiRequestImpl {
             result.setPositionSide(jsonWrapper.getString("positionSide"));
             result.setStatus(jsonWrapper.getString("status"));
             result.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
             result.setSymbol(jsonWrapper.getString("symbol"));
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
+            result.setOrigType(jsonWrapper.getString("origType"));
+            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
             return result;
         });
         return request;
@@ -924,26 +940,50 @@ class RestApiRequestImpl {
                 } else {
                     Order o = new Order();
                     JSONObject jsonObj = (JSONObject) obj;
-                    o.setClientOrderId(jsonObj.getString("clientOrderId"));
-                    o.setCumQuote(jsonObj.getBigDecimal("cumQuote"));
-                    o.setExecutedQty(jsonObj.getBigDecimal("executedQty"));
-                    o.setOrderId(jsonObj.getLong("orderId"));
-                    o.setOrigQty(jsonObj.getBigDecimal("origQty"));
-                    o.setPrice(jsonObj.getBigDecimal("price"));
-                    o.setReduceOnly(jsonObj.getBoolean("reduceOnly"));
-                    o.setSide(jsonObj.getString("side"));
-                    o.setPositionSide(jsonObj.getString("positionSide"));
-                    o.setStatus(jsonObj.getString("status"));
-                    o.setStopPrice(jsonObj.getBigDecimal("stopPrice"));
-                    o.setSymbol(jsonObj.getString("symbol"));
-                    o.setTimeInForce(jsonObj.getString("timeInForce"));
-                    o.setType(jsonObj.getString("type"));
-                    o.setUpdateTime(jsonObj.getLong("updateTime"));
-                    o.setWorkingType(jsonObj.getString("workingType"));
+                    o.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+                    o.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
+                    o.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
+                    o.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
+                    o.setOrderId(jsonWrapper.getLong("orderId"));
+                    o.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
+                    o.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
+                    o.setPrice(jsonWrapper.getBigDecimal("price"));
+                    o.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+                    o.setSide(jsonWrapper.getString("side"));
+                    o.setPositionSide(jsonWrapper.getString("positionSide"));
+                    o.setStatus(jsonWrapper.getString("status"));
+                    o.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+                    o.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+                    o.setSymbol(jsonWrapper.getString("symbol"));
+                    o.setTimeInForce(jsonWrapper.getString("timeInForce"));
+                    o.setType(jsonWrapper.getString("type"));
+                    o.setOrigType(jsonWrapper.getString("origType"));
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                    o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                    o.setUpdateTime(jsonWrapper.getLong("updateTime"));
+                    o.setWorkingType(jsonWrapper.getString("workingType"));
+                    o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
                     listResult.add(o);
                 }
             });
             return listResult;
+        });
+        return request;
+    }
+
+    RestApiRequest<JSONObject> autoCancelAllOrders(String symbol, Long countdownTime) {
+        RestApiRequest<JSONObject> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build();
+        builder.putToUrl("symbol", symbol);
+        builder.putToUrl("countdownTime", countdownTime);
+
+        request.request = createRequestByDeleteWithSignature("/fapi/v1/countdownCancelAll", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            JSONObject result = new JSONObject();
+            result.put("symbol", jsonWrapper.getString("symbol"));
+            result.put("countdownTime", jsonWrapper.getLong("countdownTime"));
+            return result;
         });
         return request;
     }
@@ -959,9 +999,11 @@ class RestApiRequestImpl {
         request.jsonParser = (jsonWrapper -> {
             Order result = new Order();
             result.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+            result.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
             result.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
             result.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
             result.setOrderId(jsonWrapper.getLong("orderId"));
+            result.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
             result.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
             result.setPrice(jsonWrapper.getBigDecimal("price"));
             result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
@@ -969,11 +1011,55 @@ class RestApiRequestImpl {
             result.setPositionSide(jsonWrapper.getString("positionSide"));
             result.setStatus(jsonWrapper.getString("status"));
             result.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
             result.setSymbol(jsonWrapper.getString("symbol"));
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
+            result.setOrigType(jsonWrapper.getString("origType"));
+            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<Order> getOpenOrder(String symbol, Long orderId, String origClientOrderId) {
+        RestApiRequest<Order> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("symbol", symbol)
+                .putToUrl("orderId", orderId)
+                .putToUrl("origClientOrderId", origClientOrderId);
+
+        request.request = createRequestByGetWithSignature("/fapi/v1/openOrder", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            Order result = new Order();
+            result.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+            result.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
+            result.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
+            result.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
+            result.setOrderId(jsonWrapper.getLong("orderId"));
+            result.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
+            result.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
+            result.setPrice(jsonWrapper.getBigDecimal("price"));
+            result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+            result.setSide(jsonWrapper.getString("side"));
+            result.setPositionSide(jsonWrapper.getString("positionSide"));
+            result.setStatus(jsonWrapper.getString("status"));
+            result.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+            result.setSymbol(jsonWrapper.getString("symbol"));
+            result.setTimeInForce(jsonWrapper.getString("timeInForce"));
+            result.setType(jsonWrapper.getString("type"));
+            result.setOrigType(jsonWrapper.getString("origType"));
+            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            result.setUpdateTime(jsonWrapper.getLong("updateTime"));
+            result.setWorkingType(jsonWrapper.getString("workingType"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
             return result;
         });
         return request;
@@ -983,30 +1069,38 @@ class RestApiRequestImpl {
         RestApiRequest<List<Order>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
                 .putToUrl("symbol", symbol);
+
         request.request = createRequestByGetWithSignature("/fapi/v1/openOrders", builder);
 
         request.jsonParser = (jsonWrapper -> {
             List<Order> result = new LinkedList<>();
             JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
             dataArray.forEach((item) -> {
-                Order element = new Order();
-                element.setClientOrderId(item.getString("clientOrderId"));
-                element.setCumQuote(item.getBigDecimal("cumQuote"));
-                element.setExecutedQty(item.getBigDecimal("executedQty"));
-                element.setOrderId(item.getLong("orderId"));
-                element.setOrigQty(item.getBigDecimal("origQty"));
-                element.setPrice(item.getBigDecimal("price"));
-                element.setReduceOnly(item.getBoolean("reduceOnly"));
-                element.setSide(item.getString("side"));
-                element.setPositionSide(item.getString("positionSide"));
-                element.setStatus(item.getString("status"));
-                element.setStopPrice(item.getBigDecimal("stopPrice"));
-                element.setSymbol(item.getString("symbol"));
-                element.setTimeInForce(item.getString("timeInForce"));
-                element.setType(item.getString("type"));
-                element.setUpdateTime(item.getLong("updateTime"));
-                element.setWorkingType(item.getString("workingType"));
-                result.add(element);
+                Order o = new Order();
+                o.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+                o.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
+                o.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
+                o.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
+                o.setOrderId(jsonWrapper.getLong("orderId"));
+                o.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
+                o.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
+                o.setPrice(jsonWrapper.getBigDecimal("price"));
+                o.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+                o.setSide(jsonWrapper.getString("side"));
+                o.setPositionSide(jsonWrapper.getString("positionSide"));
+                o.setStatus(jsonWrapper.getString("status"));
+                o.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+                o.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+                o.setSymbol(jsonWrapper.getString("symbol"));
+                o.setTimeInForce(jsonWrapper.getString("timeInForce"));
+                o.setType(jsonWrapper.getString("type"));
+                o.setOrigType(jsonWrapper.getString("origType"));
+                o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                o.setUpdateTime(jsonWrapper.getLong("updateTime"));
+                o.setWorkingType(jsonWrapper.getString("workingType"));
+                o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
+                result.add(o);
             });
             return result;
         });
@@ -1027,24 +1121,31 @@ class RestApiRequestImpl {
             List<Order> result = new LinkedList<>();
             JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
             dataArray.forEach((item) -> {
-                Order element = new Order();
-                element.setClientOrderId(item.getString("clientOrderId"));
-                element.setCumQuote(item.getBigDecimal("cumQuote"));
-                element.setExecutedQty(item.getBigDecimal("executedQty"));
-                element.setOrderId(item.getLong("orderId"));
-                element.setOrigQty(item.getBigDecimal("origQty"));
-                element.setPrice(item.getBigDecimal("price"));
-                element.setReduceOnly(item.getBoolean("reduceOnly"));
-                element.setSide(item.getString("side"));
-                element.setPositionSide(item.getString("positionSide"));
-                element.setStatus(item.getString("status"));
-                element.setStopPrice(item.getBigDecimal("stopPrice"));
-                element.setSymbol(item.getString("symbol"));
-                element.setTimeInForce(item.getString("timeInForce"));
-                element.setType(item.getString("type"));
-                element.setUpdateTime(item.getLong("updateTime"));
-                element.setWorkingType(item.getString("workingType"));
-                result.add(element);
+                Order o = new Order();
+                o.setClientOrderId(jsonWrapper.getString("clientOrderId"));
+                o.setCumQty(jsonWrapper.getBigDecimal("cumQty"));
+                o.setCumQuote(jsonWrapper.getBigDecimal("cumQuote"));
+                o.setExecutedQty(jsonWrapper.getBigDecimal("executedQty"));
+                o.setOrderId(jsonWrapper.getLong("orderId"));
+                o.setAvgPrice(jsonWrapper.getBigDecimal("avgPrice"));
+                o.setOrigQty(jsonWrapper.getBigDecimal("origQty"));
+                o.setPrice(jsonWrapper.getBigDecimal("price"));
+                o.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+                o.setSide(jsonWrapper.getString("side"));
+                o.setPositionSide(jsonWrapper.getString("positionSide"));
+                o.setStatus(jsonWrapper.getString("status"));
+                o.setStopPrice(jsonWrapper.getBigDecimal("stopPrice"));
+                o.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+                o.setSymbol(jsonWrapper.getString("symbol"));
+                o.setTimeInForce(jsonWrapper.getString("timeInForce"));
+                o.setType(jsonWrapper.getString("type"));
+                o.setOrigType(jsonWrapper.getString("origType"));
+                o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                o.setUpdateTime(jsonWrapper.getLong("updateTime"));
+                o.setWorkingType(jsonWrapper.getString("workingType"));
+                o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
+                result.add(o);
             });
             return result;
         });
@@ -1061,13 +1162,13 @@ class RestApiRequestImpl {
             JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
             dataArray.forEach((item) -> {
                 AccountBalance element = new AccountBalance();
+                element.setAccountAlias(item.getString("accountAlias"));
                 element.setAsset(item.getString("asset"));
-                element.setAccountAlias(item.getString("maxWithdrawAmount"));
-                element.setCrossWalletBalance(item.getBigDecimal("crossWalletBalance"));
-                element.setAvailableBalance(item.getBigDecimal("availableBalance"));
-                element.setCrossUnPnl(item.getBigDecimal("crossUnPnl"));
                 element.setBalance(item.getBigDecimal("balance"));
-                element.setMaxWithdrawAmount(item.getBigDecimal("withdrawAvailable"));
+                element.setCrossWalletBalance(item.getBigDecimal("crossWalletBalance"));
+                element.setCrossUnPnl(item.getBigDecimal("crossUnPnl"));
+                element.setAvailableBalance(item.getBigDecimal("availableBalance"));
+                element.setMaxWithdrawAmount(item.getBigDecimal("maxWithdrawAmount"));
                 result.add(element);
             });
             return result;
@@ -1082,22 +1183,22 @@ class RestApiRequestImpl {
 
         request.jsonParser = (jsonWrapper -> {
             AccountInformation result = new AccountInformation();
+            result.setFeeTier(jsonWrapper.getBigDecimal("feeTier"));
+            result.setCanTrade(jsonWrapper.getBoolean("canTrade"));
             result.setCanDeposit(jsonWrapper.getBoolean("canDeposit"));
+            result.setCanWithdraw(jsonWrapper.getBoolean("canWithdraw"));
+            result.setUpdateTime(jsonWrapper.getLong("updateTime"));
+            result.setTotalInitialMargin(jsonWrapper.getBigDecimal("totalInitialMargin"));
+            result.setTotalMaintMargin(jsonWrapper.getBigDecimal("totalMaintMargin"));
+            result.setTotalWalletBalance(jsonWrapper.getBigDecimal("totalWalletBalance"));
+            result.setTotalUnrealizedProfit(jsonWrapper.getBigDecimal("totalUnrealizedProfit"));
+            result.setTotalMarginBalance(jsonWrapper.getBigDecimal("totalMarginBalance"));
+            result.setTotalPositionInitialMargin(jsonWrapper.getBigDecimal("totalPositionInitialMargin"));
+            result.setTotalOpenOrderInitialMargin(jsonWrapper.getBigDecimal("totalOpenOrderInitialMargin"));
             result.setTotalCrossWalletBalance(jsonWrapper.getBigDecimal("totalCrossWalletBalance"));
             result.setTotalCrossUnPnl(jsonWrapper.getBigDecimal("totalCrossUnPnl"));
             result.setAvailableBalance(jsonWrapper.getBigDecimal("availableBalance"));
-            result.setCanTrade(jsonWrapper.getBoolean("canTrade"));
-            result.setCanWithdraw(jsonWrapper.getBoolean("canWithdraw"));
-            result.setFeeTier(jsonWrapper.getBigDecimal("feeTier"));
             result.setMaxWithdrawAmount(jsonWrapper.getBigDecimal("maxWithdrawAmount"));
-            result.setTotalInitialMargin(jsonWrapper.getBigDecimal("totalInitialMargin"));
-            result.setTotalMaintMargin(jsonWrapper.getBigDecimal("totalMaintMargin"));
-            result.setTotalMarginBalance(jsonWrapper.getBigDecimal("totalMarginBalance"));
-            result.setTotalOpenOrderInitialMargin(jsonWrapper.getBigDecimal("totalOpenOrderInitialMargin"));
-            result.setTotalPositionInitialMargin(jsonWrapper.getBigDecimal("totalPositionInitialMargin"));
-            result.setTotalUnrealizedProfit(jsonWrapper.getBigDecimal("totalUnrealizedProfit"));
-            result.setTotalWalletBalance(jsonWrapper.getBigDecimal("totalWalletBalance"));
-            result.setUpdateTime(jsonWrapper.getLong("updateTime"));
 
             List<Asset> assetList = new LinkedList<>();
             JsonWrapperArray assetArray = jsonWrapper.getJsonArray("assets");
@@ -1105,16 +1206,16 @@ class RestApiRequestImpl {
                 Asset element = new Asset();
                 element.setAsset(item.getString("asset"));
                 element.setWalletBalance(item.getBigDecimal("walletBalance"));
-                element.setInitialMargin(item.getBigDecimal("initialMargin"));
-                element.setMaintMargin(item.getBigDecimal("maintMargin"));
-                element.setMarginBalance(item.getBigDecimal("marginBalance"));
-                element.setMaxWithdrawAmount(item.getBigDecimal("maxWithdrawAmount"));
-                element.setOpenOrderInitialMargin(item.getBigDecimal("openOrderInitialMargin"));
-                element.setPositionInitialMargin(item.getBigDecimal("positionInitialMargin"));
                 element.setUnrealizedProfit(item.getBigDecimal("unrealizedProfit"));
+                element.setMarginBalance(item.getBigDecimal("marginBalance"));
+                element.setMaintMargin(item.getBigDecimal("maintMargin"));
+                element.setInitialMargin(item.getBigDecimal("initialMargin"));
+                element.setPositionInitialMargin(item.getBigDecimal("positionInitialMargin"));
+                element.setOpenOrderInitialMargin(item.getBigDecimal("openOrderInitialMargin"));
                 element.setCrossWalletBalance(item.getBigDecimal("crossWalletBalance"));
                 element.setCrossUnPnl(item.getBigDecimal("crossUnPnl"));
                 element.setAvailableBalance(item.getBigDecimal("availableBalance"));
+                element.setMaxWithdrawAmount(item.getBigDecimal("maxWithdrawAmount"));
                 assetList.add(element);
             });
             result.setAssets(assetList);
@@ -1123,14 +1224,14 @@ class RestApiRequestImpl {
             JsonWrapperArray positionArray = jsonWrapper.getJsonArray("positions");
             positionArray.forEach((item) -> {
                 Position element = new Position();
-                element.setIsolated(item.getBoolean("isolated"));
-                element.setLeverage(item.getBigDecimal("leverage"));
+                element.setSymbol(item.getString("symbol"));
                 element.setInitialMargin(item.getBigDecimal("initialMargin"));
                 element.setMaintMargin(item.getBigDecimal("maintMargin"));
-                element.setOpenOrderInitialMargin(item.getBigDecimal("openOrderInitialMargin"));
-                element.setPositionInitialMargin(item.getBigDecimal("positionInitialMargin"));
-                element.setSymbol(item.getString("symbol"));
                 element.setUnrealizedProfit(item.getBigDecimal("unrealizedProfit"));
+                element.setPositionInitialMargin(item.getBigDecimal("positionInitialMargin"));
+                element.setOpenOrderInitialMargin(item.getBigDecimal("openOrderInitialMargin"));
+                element.setLeverage(item.getBigDecimal("leverage"));
+                element.setIsolated(item.getBoolean("isolated"));
                 element.setEntryPrice(item.getString("entryPrice"));
                 element.setMaxNotional(item.getString("maxNotional"));
                 element.setPositionSide(item.getString("positionSide"));
@@ -1164,10 +1265,11 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<List<PositionRisk>> getPositionRisk() {
+    RestApiRequest<List<PositionRisk>> getPositionRisk(String symbol) {
         RestApiRequest<List<PositionRisk>> request = new RestApiRequest<>();
-        UrlParamsBuilder builder = UrlParamsBuilder.build();
-        request.request = createRequestByGetWithSignature("/fapi/v1/positionRisk", builder);
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+        .putToUrl("symbol", symbol);
+        request.request = createRequestByGetWithSignature("/fapi/v2/positionRisk", builder);
 
         request.jsonParser = (jsonWrapper -> {
             List<PositionRisk> result = new LinkedList<>();
@@ -1175,19 +1277,16 @@ class RestApiRequestImpl {
             dataArray.forEach((item) -> {
                 PositionRisk element = new PositionRisk();
                 element.setEntryPrice(item.getBigDecimal("entryPrice"));
+                element.setMarginType(item.getString("marginType"));
+                element.setAutoAddMargin(item.getBoolean("isAutoAddMargin"));
                 element.setLeverage(item.getBigDecimal("leverage"));
-                if(item.getString("maxNotionalValue").equals("INF")) {
-                    element.setMaxNotionalValue(Double.POSITIVE_INFINITY);
-                } else {
-                    element.setMaxNotionalValue(item.getDouble("maxNotionalValue"));
-                }
+                element.setMaxNotionalValue(item.getDouble("maxNotionalValue"));
                 element.setLiquidationPrice(item.getBigDecimal("liquidationPrice"));
                 element.setMarkPrice(item.getBigDecimal("markPrice"));
                 element.setPositionAmt(item.getBigDecimal("positionAmt"));
                 element.setSymbol(item.getString("symbol"));
                 element.setIsolatedMargin(item.getString("isolatedMargin"));
                 element.setPositionSide(item.getString("positionSide"));
-                element.setMarginType(item.getString("marginType"));
                 element.setUnrealizedProfit(item.getBigDecimal("unRealizedProfit"));
                 result.add(element);
             });
@@ -1216,7 +1315,6 @@ class RestApiRequestImpl {
                 element.setCommission(item.getBigDecimal("commission"));
                 element.setCommissionAsset(item.getString("commissionAsset"));
                 element.setCounterPartyId(item.getLongOrDefault("counterPartyId", 0));
-                element.setOrderId(item.getLong("orderId"));
                 element.setIsMaker(item.getBoolean("maker"));
                 element.setOrderId(item.getLong("orderId"));
                 element.setPrice(item.getBigDecimal("price"));
@@ -1254,7 +1352,11 @@ class RestApiRequestImpl {
                 element.setIncomeType(item.getString("incomeType"));
                 element.setIncome(item.getBigDecimal("income"));
                 element.setAsset(item.getString("asset"));
+                element.setInfo(item.getString("info"));
                 element.setTime(item.getLong("time"));
+                element.setTranId(item.getLong("tranId"));
+                element.setTradeId(item.getString("tradeId"));
+
                 result.add(element);
             });
             return result;

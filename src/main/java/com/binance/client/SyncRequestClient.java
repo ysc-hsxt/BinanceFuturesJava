@@ -206,7 +206,7 @@ public interface SyncRequestClient {
      *
      * @return ResponseResult.
      */
-    ResponseResult changePositionSide(boolean dual);
+    ResponseResult changePositionSide(String dual);
 
     /**
      * Change margin type (ISOLATED, CROSSED)
@@ -214,7 +214,7 @@ public interface SyncRequestClient {
      * @param marginType
      * @return
      */
-    ResponseResult changeMarginType(String symbolName, String marginType);
+    ResponseResult changeMarginType(String symbolName, MarginType marginType);
 
     /**
      * add isolated position margin
@@ -252,7 +252,14 @@ public interface SyncRequestClient {
     Order getOrder(String symbol, Long orderId, String origClientOrderId);
 
     /**
-     * Get all open orders on a symbol. Careful when accessing this with no symbol.
+     * Get all open order on a symbol.
+     *
+     * @return Open order.
+     */
+    Order getOpenOrder(String symbol, Long orderId, String origClientOrderId);
+
+    /**
+     * Get current open order on a symbol. Careful when accessing this with no symbol.
      *
      * @return Open orders.
      */
@@ -291,7 +298,7 @@ public interface SyncRequestClient {
      *
      * @return Position.
      */
-    List<PositionRisk> getPositionRisk();
+    List<PositionRisk> getPositionRisk(String symbol);
 
     /**
      * Get trades for a specific account and symbol.
@@ -369,5 +376,12 @@ public interface SyncRequestClient {
      * @return Taker Long/Short Ratio. 
      */
     List<TakerLongShortStat> getTakerLongShortRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
+
+    /**
+     * Cancel all open orders of the specified symbol at the end of the specified countdown.
+     *
+     * @return Ack.
+     */
+    JSONObject autoCancelAllOrders(String symbol, Long countdownTime);
 
 }
