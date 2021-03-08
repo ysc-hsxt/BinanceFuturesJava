@@ -161,7 +161,7 @@ public interface SyncRequestClient {
      *
      * @return All liquidation orders.
      */
-    List<LiquidationOrder> getLiquidationOrders(String symbol, Long startTime, Long endTime, Integer limit);
+    List<LiquidationOrder> getLiquidationOrders(String symbol, AutoCloseType type, Long startTime, Long endTime, Integer limit);
 
     /**
      * Place new orders

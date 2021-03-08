@@ -92,8 +92,8 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
     
     @Override
-    public List<LiquidationOrder> getLiquidationOrders(String symbol, Long startTime, Long endTime, Integer limit) {
-        return RestApiInvoker.callSync(requestImpl.getLiquidationOrders(symbol, startTime, endTime, limit));
+    public List<LiquidationOrder> getLiquidationOrders(String symbol, AutoCloseType type, Long startTime, Long endTime, Integer limit) {
+        return RestApiInvoker.callSync(requestImpl.getLiquidationOrders(symbol, type, startTime, endTime, limit));
     }
 
     @Override
