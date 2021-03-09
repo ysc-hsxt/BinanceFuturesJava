@@ -6,7 +6,7 @@
 
     <groupId>com.github.yonathan95</groupId>
     <artifactId>binance-java-sdk</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <name>Binance java sdk</name>
     <description>This is Binance Java SDK, This is a lightweight Java library, you can import to your Java project and use this SDK to query all market data, trading and manage your account.
@@ -39,6 +39,10 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
 
