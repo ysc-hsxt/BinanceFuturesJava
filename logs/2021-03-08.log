@@ -1,0 +1,5 @@
+2021-03-08 15:10:08 [INFO] - [Sub] Connection [id: 0] created for ***Aggregate Trade for btcusdt***
+2021-03-08 15:10:08 [INFO] - [Sub][0] Connecting...
+2021-03-08 15:10:11 [INFO] - [Sub][0] Connected to server
+2021-03-08 15:10:11 [ERROR] - [Sub][0] Closing normally
+2021-03-08 15:10:11 [ERROR] - [Sub][0] Unexpected error: Socket closed
