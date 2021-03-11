@@ -717,8 +717,12 @@ class RestApiRequestImpl {
                     o.setTimeInForce(jsonWrapper.getString("timeInForce"));
                     o.setType(jsonWrapper.getString("type"));
                     o.setOrigType(jsonWrapper.getString("origType"));
-                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-                    o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                    if (jsonWrapper.containKey("activatePrice")) {
+                        o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                    }
+                    if (jsonWrapper.containKey("priceRate")) {
+                        o.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+                    }
                     o.setUpdateTime(jsonWrapper.getLong("updateTime"));
                     o.setWorkingType(jsonWrapper.getString("workingType"));
                     o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -774,8 +778,12 @@ class RestApiRequestImpl {
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
             result.setOrigType(jsonWrapper.getString("origType"));
-            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            if (jsonWrapper.containKey("priceRate")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+            }
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
             result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -904,8 +912,12 @@ class RestApiRequestImpl {
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
             result.setOrigType(jsonWrapper.getString("origType"));
-            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            if (jsonWrapper.containKey("priceRate")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+            }
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
             result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -973,8 +985,12 @@ class RestApiRequestImpl {
                     o.setTimeInForce(jsonWrapper.getString("timeInForce"));
                     o.setType(jsonWrapper.getString("type"));
                     o.setOrigType(jsonWrapper.getString("origType"));
-                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-                    o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                    if (jsonWrapper.containKey("activatePrice")) {
+                        o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                    }
+                    if (jsonWrapper.containKey("priceRate")) {
+                        o.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+                    }
                     o.setUpdateTime(jsonWrapper.getLong("updateTime"));
                     o.setWorkingType(jsonWrapper.getString("workingType"));
                     o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -1031,8 +1047,12 @@ class RestApiRequestImpl {
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
             result.setOrigType(jsonWrapper.getString("origType"));
-            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            if (jsonWrapper.containKey("priceRate")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+            }
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
             result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -1070,8 +1090,12 @@ class RestApiRequestImpl {
             result.setTimeInForce(jsonWrapper.getString("timeInForce"));
             result.setType(jsonWrapper.getString("type"));
             result.setOrigType(jsonWrapper.getString("origType"));
-            result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-            result.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            if (jsonWrapper.containKey("priceRate")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+            }
             result.setUpdateTime(jsonWrapper.getLong("updateTime"));
             result.setWorkingType(jsonWrapper.getString("workingType"));
             result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -1110,8 +1134,12 @@ class RestApiRequestImpl {
                 o.setTimeInForce(jsonWrapper.getString("timeInForce"));
                 o.setType(jsonWrapper.getString("type"));
                 o.setOrigType(jsonWrapper.getString("origType"));
-                o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-                o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                if (jsonWrapper.containKey("activatePrice")) {
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                }
+                if (jsonWrapper.containKey("priceRate")) {
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+                }
                 o.setUpdateTime(jsonWrapper.getLong("updateTime"));
                 o.setWorkingType(jsonWrapper.getString("workingType"));
                 o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
@@ -1155,8 +1183,12 @@ class RestApiRequestImpl {
                 o.setTimeInForce(jsonWrapper.getString("timeInForce"));
                 o.setType(jsonWrapper.getString("type"));
                 o.setOrigType(jsonWrapper.getString("origType"));
-                o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
-                o.setPriceRate(jsonWrapper.getBigDecimal("priceRate"));
+                if (jsonWrapper.containKey("activatePrice")) {
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+                }
+                if (jsonWrapper.containKey("priceRate")) {
+                    o.setActivatePrice(jsonWrapper.getBigDecimal("priceRate"));
+                }
                 o.setUpdateTime(jsonWrapper.getLong("updateTime"));
                 o.setWorkingType(jsonWrapper.getString("workingType"));
                 o.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
