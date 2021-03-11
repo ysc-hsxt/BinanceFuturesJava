@@ -18,13 +18,13 @@
 -docencoding
 'UTF-8'
 -doctitle
-'Binance java sdk 1.0.1 API'
+'Binance java sdk 1.0.2 API'
 -linkoffline
 'https://docs.oracle.com/javase/8/docs/api' '/home/spl211/IdeaProjects/Binance_Futures_Java/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
-'Binance java sdk 1.0.1 API'
+'Binance java sdk 1.0.2 API'
 com.binance.client
 com.binance.client.exception
 com.binance.client.impl
@@ -46,17 +46,17 @@ com.binance.client.constant
 /home/spl211/.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10.jar = 1613299643081
 /home/spl211/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar = 1613298627385
 /home/spl211/IdeaProjects/Binance_Futures_Java/src/main/java = 1614520322299
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/allclasses-frame.html = 1615312310280
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-summary.html = 1615312310288
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-frame.html = 1615312309524
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-tree.html = 1615312309996
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/index.html = 1615312310284
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/help-doc.html = 1615312310292
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/allclasses-noframe.html = 1615312310280
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/script.js = 1615312310304
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/serialized-form.html = 1615312309612
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/deprecated-list.html = 1615312310264
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/constant-values.html = 1615312309588
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/index-all.html = 1615312310244
-/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/package-list = 1615312309520
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/allclasses-frame.html = 1615502656308
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-summary.html = 1615502656316
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-frame.html = 1615502655776
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/overview-tree.html = 1615502656220
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/index.html = 1615502656312
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/help-doc.html = 1615502656316
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/allclasses-noframe.html = 1615502656308
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/script.js = 1615502656320
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/serialized-form.html = 1615502655852
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/deprecated-list.html = 1615502656304
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/constant-values.html = 1615502655840
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/index-all.html = 1615502656300
+/home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/package-list = 1615502655772
 /home/spl211/IdeaProjects/Binance_Futures_Java/target/apidocs/stylesheet.css = 1615312310300
