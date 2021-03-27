@@ -6,16 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="binance-client" />
+        <module name="binance-java-sdk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="binance-client" target="1.8" />
+      <module name="binance-java-sdk" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="binance-client" options="-Xlint:unchecked" />
+      <module name="binance-java-sdk" options="-Xlint:unchecked" />
     </option>
   </component>
 </project>
