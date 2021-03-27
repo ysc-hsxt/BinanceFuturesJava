@@ -19,7 +19,7 @@ Install 1/2: Add this to pom.xml:
 <dependency>
   <groupId>com.github.yonathan95</groupId>
   <artifactId>binance-java-sdk</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.1-SNAPSHOT</version>
 </dependency>
 ```
 
