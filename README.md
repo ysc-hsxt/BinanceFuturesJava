@@ -11,7 +11,9 @@ The SDK supports both synchronous and asynchronous RESTful API invoking, and sub
 
 ### Maven configuration
 
-Binance Java Sdk is available on [Maven Central](http://search.maven.org/#search). You just have to add the following dependency in your `pom.xml` file.
+Binance Java Sdk is available on [Maven Central](http://search.maven.org/#search). You just have to follow the following steps:
+
+Install 1/2: Add this to pom.xml:
 
 ```xml
 <dependency>
@@ -20,6 +22,17 @@ Binance Java Sdk is available on [Maven Central](http://search.maven.org/#search
   <version>1.0.1</version>
 </dependency>
 ```
+
+Install 2/2: Run via command line
+
+```xml
+$ mvn install
+```
 *The SDK is compiled by Java8*
 
-The example code is in binance-api-sdk/java/src/test/java/com/binance/client/examples.
+## Creators
+[Yonathan Wolloch](https://github.com/yonathan95)
+
+[Uri Bek](https://github.com/urib94)
+
+[Omri Attal](https://github.com/omriattal)
