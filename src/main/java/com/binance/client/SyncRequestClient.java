@@ -206,7 +206,7 @@ public interface SyncRequestClient {
      *
      * @return ResponseResult.
      */
-    ResponseResult changePositionSide(Boolean dual);
+    ResponseResult changePositionSide(String dual);
 
     /**
      * Change margin type (ISOLATED, CROSSED)
