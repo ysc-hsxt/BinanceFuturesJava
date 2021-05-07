@@ -23,7 +23,7 @@ public class Asset {
 
     private BigDecimal openOrderInitialMargin;
 
-    private BigDecimal crossWalletBalance;//TODO
+    private BigDecimal crossWalletBalance;
 
     private BigDecimal crossUnPnl;
 
