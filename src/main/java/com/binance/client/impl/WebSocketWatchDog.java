@@ -2,13 +2,14 @@ package com.binance.client.impl;
 
 import com.binance.client.SubscriptionOptions;
 import com.binance.client.impl.WebSocketConnection.ConnectionState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class WebSocketWatchDog {
 
@@ -19,7 +20,9 @@ class WebSocketWatchDog {
     WebSocketWatchDog(SubscriptionOptions subscriptionOptions) {
         this.options = Objects.requireNonNull(subscriptionOptions);
         long t = 1_000;
-        ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService exec = Executors.newScheduledThreadPool(2);
+
+        // Check the connection and reconnect if needed
         exec.scheduleAtFixedRate(() -> {
             TIME_HELPER.forEach(connection -> {
                 if (connection.getState() == ConnectionState.CONNECTED) {
@@ -40,6 +43,16 @@ class WebSocketWatchDog {
                 }
             });
         }, t, t, TimeUnit.MILLISECONDS);
+
+        // Ping at regular interval to keep the websocket opened
+        exec.scheduleAtFixedRate(() -> {
+            TIME_HELPER.forEach(connection -> {
+                if (connection.getState() == ConnectionState.CONNECTED) {
+                    connection.ping();
+                }
+            });
+        }, options.getPingInterval(), options.getPingInterval(), TimeUnit.MILLISECONDS);
+
         Runtime.getRuntime().addShutdownHook(new Thread(exec::shutdown));
     }
 
