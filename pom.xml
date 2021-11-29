@@ -34,9 +34,13 @@
     </scm>
 
     <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://packages.aliyun.com/maven/repository/2004046-release-yyyEFN/</url>
+        </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <id>rdc-snapshots</id>
+            <url>https://packages.aliyun.com/maven/repository/2004046-snapshot-EsogEo/</url>
         </snapshotRepository>
     </distributionManagement>
 
