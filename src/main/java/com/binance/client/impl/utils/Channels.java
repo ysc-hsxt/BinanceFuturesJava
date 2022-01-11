@@ -46,10 +46,10 @@ public abstract class Channels {
         JSONArray params = new JSONArray();
         if(symbol.contains(",")){
             for(String s : symbol.split(",")){
-                params.add(s + "@kline_" + interval);
+                params.add(s + "_perpetual@continuousKline_" + interval);
             }
         }else{
-            params.add(symbol + "@kline_" + interval);
+            params.add(symbol + "_perpetual@continuousKline_" + interval);
         }
         json.put("params", params);
         json.put("id", System.currentTimeMillis());

@@ -16,6 +16,7 @@ public class BinanceApiConstants {
      * Streaming API base URL.
      */
     public static final String WS_API_BASE_URL = "wss://fstream.binance.com/ws";
+    //public static final String WS_API_BASE_URL = "wss://fstream.bnappzh.cc/ws";
 
     /**
      * HTTP Header to be used for API-KEY authentication.
