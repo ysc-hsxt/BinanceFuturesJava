@@ -457,7 +457,7 @@ class WebsocketRequestImpl {
             result.setEventTime(jsonWrapper.getLong("E"));
             if (jsonWrapper.containKey("T"))
                 result.setTransactionTime(jsonWrapper.getLong("T"));
-            result.setEventReasonType(jsonWrapper.getString("m"));
+            //result.setEventReasonType(jsonWrapper.getString("m"));
 
             if(jsonWrapper.getString("e").equals("ACCOUNT_UPDATE")) {
                 AccountUpdate accountUpdate = new AccountUpdate();
