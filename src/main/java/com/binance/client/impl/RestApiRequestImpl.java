@@ -1,10 +1,5 @@
 package com.binance.client.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.binance.client.RequestOptions;
@@ -12,14 +7,18 @@ import com.binance.client.exception.BinanceApiException;
 import com.binance.client.impl.utils.JsonWrapperArray;
 import com.binance.client.impl.utils.UrlParamsBuilder;
 import com.binance.client.model.ResponseResult;
+import com.binance.client.model.enums.*;
 import com.binance.client.model.market.*;
 import com.binance.client.model.trade.*;
-import com.binance.client.model.enums.*;
-
 import okhttp3.Request;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 class RestApiRequestImpl {
 
@@ -555,7 +554,7 @@ class RestApiRequestImpl {
                 element.setPriceChange(item.getBigDecimal("priceChange"));
                 element.setPriceChangePercent(item.getBigDecimal("priceChangePercent"));
                 element.setWeightedAvgPrice(item.getBigDecimal("weightedAvgPrice"));
-                element.setPrevClosePrice(item.getBigDecimal("prevClosePrice"));
+                //element.setPrevClosePrice(item.getBigDecimal("prevClosePrice"));
                 element.setLastPrice(item.getBigDecimal("lastPrice"));
                 element.setLastQty(item.getBigDecimal("lastQty"));
                 element.setOpenPrice(item.getBigDecimal("openPrice"));
@@ -1339,7 +1338,7 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<List<MyTrade>> getAccountTrades(String symbol, Long startTime, Long endTime, 
+    RestApiRequest<List<MyTrade>> getAccountTrades(String symbol, Long startTime, Long endTime,
             Long fromId, Integer limit) {
         RestApiRequest<List<MyTrade>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
@@ -1376,7 +1375,7 @@ class RestApiRequestImpl {
         return request;
     }
 
-    RestApiRequest<List<Income>> getIncomeHistory(String symbol, IncomeType incomeType, Long startTime, Long endTime, 
+    RestApiRequest<List<Income>> getIncomeHistory(String symbol, IncomeType incomeType, Long startTime, Long endTime,
             Integer limit) {
         RestApiRequest<List<Income>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
@@ -1478,8 +1477,8 @@ class RestApiRequestImpl {
                 .putToUrl("startTime", startTime)
                 .putToUrl("endTime", endTime)
                 .putToUrl("limit", limit);
-        
-        
+
+
 //        request.request = createRequestByGetWithSignature("/gateway-api//v1/public/future/data/openInterestHist", builder);
         request.request = createRequestByGetWithSignature("/futures/data/openInterestHist", builder);
 
