@@ -1219,6 +1219,58 @@ class RestApiRequestImpl {
         return request;
     }
 
+    RestApiRequest<List<TraderSummary>> getTraderSummary(String customerId, Integer type, Long startTime, Long endTime, Integer limit) {
+        RestApiRequest<List<TraderSummary>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("customerId", customerId)
+                .putToUrl("type", type)
+                .putToUrl("startTime", startTime)
+                .putToUrl("endTime", endTime)
+                .putToUrl("limit", limit);
+        request.request = createRequestByGetWithSignature("/fapi/v1/apiReferral/traderSummary", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<TraderSummary> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEach((item) -> {
+                TraderSummary traderSummary = new TraderSummary();
+                traderSummary.setCustomerId(item.getString("customerId"));
+                traderSummary.setUnit(item.getString("unit"));
+                traderSummary.setTradeVol(item.getString("tradeVol"));
+                traderSummary.setRebateVol(item.getString("rebateVol"));
+                traderSummary.setTime(item.getLong("time"));
+                result.add(traderSummary);
+            });
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<Customer>> getCustomerInfo(String customerId, String email, Integer page, Integer limit) {
+        RestApiRequest<List<Customer>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("customerId", customerId)
+                .putToUrl("email", email)
+                .putToUrl("page", page)
+                .putToUrl("limit", limit);
+        request.request = createRequestByGetWithSignature("/fapi/v1/apiReferral/customization", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<Customer> result = new LinkedList<>();
+            if(jsonWrapper.containKey("data")){
+                JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+                dataArray.forEach((item) -> {
+                    Customer customer = new Customer();
+                    customer.setCustomerId(item.getString("customerId"));
+                    customer.setEmail(item.getString("email"));
+                    result.add(customer);
+                });
+            }
+            return result;
+        });
+        return request;
+    }
+
     RestApiRequest<AccountInformation> getAccountInformation() {
         RestApiRequest<AccountInformation> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build();

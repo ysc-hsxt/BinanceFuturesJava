@@ -7,5 +7,6 @@ public enum IncomeType {
     REALIZED_PNL,
     FUNDING_FEE,
     COMMISSION,
-    INSURANCE_CLEAR;
+    INSURANCE_CLEAR,
+    API_REBATE;
 }

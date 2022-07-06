@@ -169,7 +169,7 @@ public interface SyncRequestClient {
      * @return
      */
     List<Object> postBatchOrders(String batchOrders);
-    
+
     /**
      * Send in a new order.
      *
@@ -271,21 +271,24 @@ public interface SyncRequestClient {
      * @return All orders.
      */
     List<Order> getAllOrders(String symbol, Long orderId, Long startTime, Long endTime, Integer limit);
-  
+
     /**
      * Get account balances.
      *
      * @return Balances.
      */
     List<AccountBalance> getBalance();
-  
+
+    List<TraderSummary> getTraderSummary(String customerId, Integer type, Long startTime, Long endTime, Integer limit);
+
+    List<Customer> getCustomerInfo(String customerId, String email, Integer page, Integer limit);
     /**
      * Get current account information.
      *
      * @return Current account information.
      */
     AccountInformation getAccountInformation();
-  
+
     /**
      * Change initial leverage.
      *
@@ -366,14 +369,14 @@ public interface SyncRequestClient {
     /**
      * Long/Short Ratio (MARKET DATA)
      *
-     * @return global Long/Short Ratio. 
+     * @return global Long/Short Ratio.
      */
     List<CommonLongShortRatio> getGlobalAccountRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
     /**
      * Taker Long/Short Ratio (MARKET DATA)
      *
-     * @return Taker Long/Short Ratio. 
+     * @return Taker Long/Short Ratio.
      */
     List<TakerLongShortStat> getTakerLongShortRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit);
 
