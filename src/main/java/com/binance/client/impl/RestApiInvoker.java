@@ -55,6 +55,8 @@ abstract class RestApiInvoker {
             // System.out.println(response.body().string());
             if (response != null && response.body() != null) {
                 str = response.body().string();
+                log.info("Request URL：" + request.request.url());
+                log.info("x-mbx-used-weight-1m："+response.header("x-mbx-used-weight-1m"));
                 response.close();
             } else {
                 throw new BinanceApiException(BinanceApiException.ENV_ERROR,
