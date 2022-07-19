@@ -19,30 +19,29 @@ class WebSocketWatchDog {
 
     WebSocketWatchDog(SubscriptionOptions subscriptionOptions) {
         this.options = Objects.requireNonNull(subscriptionOptions);
-        long t = 1_000;
+        //三秒钟检测一次
+        long t = 3_000;
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(2);
 
         // Check the connection and reconnect if needed
-        exec.scheduleAtFixedRate(() -> {
-            TIME_HELPER.forEach(connection -> {
-                if (connection.getState() == ConnectionState.CONNECTED) {
-                    // Check response
-                    if (options.isAutoReconnect()) {
-                        long ts = System.currentTimeMillis() - connection.getLastReceivedTime();
-                        if (ts > options.getReceiveLimitMs()) {
-                            log.warn("[Sub][" + connection.getConnectionId() + "] No response from server");
-                            connection.reConnect(options.getConnectionDelayOnFailure());
-                        }
-                    }
-                } else if (connection.getState() == ConnectionState.DELAY_CONNECT) {
-                    connection.reConnect();
-                } else if (connection.getState() == ConnectionState.CLOSED_ON_ERROR) {
-                    if (options.isAutoReconnect()) {
+        exec.scheduleAtFixedRate(() -> TIME_HELPER.forEach(connection -> {
+            if (connection.getState() == ConnectionState.CONNECTED) {
+                // Check response
+                if (options.isAutoReconnect()) {
+                    long ts = System.currentTimeMillis() - connection.getLastReceivedTime();
+                    if (ts > options.getReceiveLimitMs()) {
+                        log.warn("[Sub][" + connection.getConnectionId() + "] No response from server");
                         connection.reConnect(options.getConnectionDelayOnFailure());
                     }
                 }
-            });
-        }, t, t, TimeUnit.MILLISECONDS);
+            } else if (connection.getState() == ConnectionState.DELAY_CONNECT) {
+                connection.reConnect();
+            } else if (connection.getState() == ConnectionState.CLOSED_ON_ERROR) {
+                if (options.isAutoReconnect()) {
+                    connection.reConnect(options.getConnectionDelayOnFailure());
+                }
+            }
+        }), t, t, TimeUnit.MILLISECONDS);
 
         // Ping at regular interval to keep the websocket opened
         exec.scheduleAtFixedRate(() -> {
