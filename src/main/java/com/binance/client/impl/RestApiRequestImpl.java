@@ -1440,20 +1440,22 @@ class RestApiRequestImpl {
 
         request.jsonParser = (jsonWrapper -> {
             List<Income> result = new LinkedList<>();
-            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
-            dataArray.forEach((item) -> {
-                Income element = new Income();
-                element.setSymbol(item.getString("symbol"));
-                element.setIncomeType(item.getString("incomeType"));
-                element.setIncome(item.getBigDecimal("income"));
-                element.setAsset(item.getString("asset"));
-                element.setInfo(item.getString("info"));
-                element.setTime(item.getLong("time"));
-                element.setTranId(item.getLong("tranId"));
-                element.setTradeId(item.getString("tradeId"));
+            if(jsonWrapper.containKey("data")){
+                JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+                dataArray.forEach((item) -> {
+                    Income element = new Income();
+                    element.setSymbol(item.getString("symbol"));
+                    element.setIncomeType(item.getString("incomeType"));
+                    element.setIncome(item.getBigDecimal("income"));
+                    element.setAsset(item.getString("asset"));
+                    element.setInfo(item.getString("info"));
+                    element.setTime(item.getLong("time"));
+                    element.setTranId(item.getLong("tranId"));
+                    element.setTradeId(item.getString("tradeId"));
 
-                result.add(element);
-            });
+                    result.add(element);
+                });
+            }
             return result;
         });
         return request;
