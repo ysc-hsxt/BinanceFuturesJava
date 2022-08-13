@@ -60,7 +60,11 @@ public class WebSocketConnection extends WebSocketListener {
             log.info("[Sub][" + this.connectionId + "] Already connected");
             return;
         }
-        log.info("[Sub][" + this.connectionId + "] Connecting...");
+        if(delayInSecond == 0){
+            log.info("[Sub][" + this.connectionId + "] Connecting...");
+        }else{
+            log.info("[Sub][" + this.connectionId + "] Connecting...  delayInSecond："+delayInSecond);
+        }
         webSocket = RestApiInvoker.createWebSocket(okhttpRequest, this);
     }
 

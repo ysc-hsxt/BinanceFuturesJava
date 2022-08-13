@@ -19,8 +19,8 @@ class WebSocketWatchDog {
 
     WebSocketWatchDog(SubscriptionOptions subscriptionOptions) {
         this.options = Objects.requireNonNull(subscriptionOptions);
-        //三秒钟检测一次
-        long t = 3_000;
+        //10秒钟检测一次
+        long t = 10_000;
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(2);
 
         // Check the connection and reconnect if needed
