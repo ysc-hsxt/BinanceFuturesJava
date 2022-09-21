@@ -1,15 +1,10 @@
 package com.binance.client.impl;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.binance.client.exception.BinanceApiException;
 import com.binance.client.impl.utils.JsonWrapper;
+import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +12,12 @@ abstract class RestApiInvoker {
 
     private static final Logger log = LoggerFactory.getLogger(RestApiInvoker.class);
     private static final OkHttpClient client = new OkHttpClient();
-    private static final OkHttpClient wsClient = new OkHttpClient().newBuilder().pingInterval(30, TimeUnit.SECONDS).build();
+    private static final Dispatcher dispatcher = new Dispatcher();
+    static {
+        dispatcher.setMaxRequests(3000000);
+        dispatcher.setMaxRequestsPerHost(1000000);
+    }
+    private static final OkHttpClient wsClient = new OkHttpClient().newBuilder().dispatcher(dispatcher).pingInterval(30, TimeUnit.SECONDS).build();
 
     static void checkResponse(JsonWrapper json) {
         try {
