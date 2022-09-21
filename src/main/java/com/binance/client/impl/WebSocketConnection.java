@@ -48,7 +48,7 @@ public class WebSocketConnection extends WebSocketListener {
 
         this.okhttpRequest = new Request.Builder().url(subscriptionUrl).build();
         this.watchDog = watchDog;
-        log.info("[Sub] Connection [id: " + this.connectionId + "] created for " + request.name);
+        log.info("[Sub] Connection [id: " + this.connectionId + "] created for " + request.name + "，requestUrl："+subscriptionUrl);
     }
 
     int getConnectionId() {
