@@ -2,10 +2,12 @@ package com.binance.client.impl;
 
 import com.binance.client.exception.BinanceApiException;
 import com.binance.client.impl.utils.JsonWrapper;
+import com.ysc.system.common.util.BinanceUtil;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 abstract class RestApiInvoker {
@@ -56,10 +58,11 @@ abstract class RestApiInvoker {
             log.debug("Request URL " + request.request.url());
             Response response = client.newCall(request.request).execute();
             // System.out.println(response.body().string());
-            if (response != null && response.body() != null) {
-                str = response.body().string();
+            if (response.body() != null) {
+                str = Objects.requireNonNull(response.body()).string();
                 log.info("Request URL：" + request.request.url());
                 log.info("x-mbx-used-weight-1m："+response.header("x-mbx-used-weight-1m"));
+                BinanceUtil.mbxUsedWeight(response.header("x-mbx-used-weight-1m"));
                 response.close();
             } else {
                 throw new BinanceApiException(BinanceApiException.ENV_ERROR,
