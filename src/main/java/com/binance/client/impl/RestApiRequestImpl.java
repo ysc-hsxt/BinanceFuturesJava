@@ -1113,7 +1113,7 @@ class RestApiRequestImpl {
             dataArray.forEach((item) -> {
                 Order o = new Order();
                 o.setClientOrderId(item.getString("clientOrderId")); //
-                o.setCumQty(item.getBigDecimal("cumQty"));
+                //o.setCumQty(item.getBigDecimal("cumQty"));
                 o.setCumQuote(item.getBigDecimal("cumQuote"));
                 o.setExecutedQty(item.getBigDecimal("executedQty"));
                 o.setOrderId(item.getLong("orderId"));
