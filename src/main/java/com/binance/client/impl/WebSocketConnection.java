@@ -103,7 +103,7 @@ public class WebSocketConnection extends WebSocketListener {
     }
 
     void ping() {
-        send("ping");
+        //send("ping");
     }
 
     @Override
