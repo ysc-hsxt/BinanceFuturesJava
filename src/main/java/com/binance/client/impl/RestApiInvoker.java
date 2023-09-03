@@ -19,7 +19,7 @@ abstract class RestApiInvoker {
         dispatcher.setMaxRequests(3000000);
         dispatcher.setMaxRequestsPerHost(1000000);
     }
-    private static final OkHttpClient wsClient = new OkHttpClient().newBuilder().dispatcher(dispatcher).pingInterval(30, TimeUnit.SECONDS).build();
+    private static final OkHttpClient wsClient = new OkHttpClient().newBuilder().dispatcher(dispatcher).pingInterval(90, TimeUnit.SECONDS).build();
 
     static void checkResponse(JsonWrapper json) {
         try {
