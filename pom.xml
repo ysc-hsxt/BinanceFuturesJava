@@ -4,7 +4,7 @@
 
     <groupId>com.github.yonathan95</groupId>
     <artifactId>binance-java-sdk</artifactId>
-    <version>1.2.20</version>
+    <version>1.2.21</version>
 
     <name>Binance java sdk</name>
     <description>This is Binance Java SDK, This is a lightweight Java library, you can import to your Java project and use this SDK to query all market data, trading and manage your account.
@@ -48,7 +48,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <okhttp3.version>4.9.1</okhttp3.version>
+        <okhttp3.version>4.12.0</okhttp3.version>
         <fastjson.version>1.2.76</fastjson.version>
     </properties>
 
