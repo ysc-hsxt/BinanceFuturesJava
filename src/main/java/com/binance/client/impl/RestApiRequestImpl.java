@@ -10,6 +10,7 @@ import com.binance.client.model.ResponseResult;
 import com.binance.client.model.enums.*;
 import com.binance.client.model.market.*;
 import com.binance.client.model.trade.*;
+import com.binance.client.model.wallet.Deposit;
 import okhttp3.Request;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -1668,6 +1669,31 @@ class RestApiRequestImpl {
                 element.setSellVol(item.getBigDecimal("sellVol"));
                 element.setBuyVol(item.getBigDecimal("buyVol"));
                 element.setTimestamp(item.getLong("timestamp"));
+
+                result.add(element);
+            });
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<Deposit>> getDepositHistory() {
+        RestApiRequest<List<Deposit>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("coin", "USDT");
+        request.request = createRequestByGetWithSignature("/sapi/v1/capital/deposit/hisrec", builder);
+        request.jsonParser = (jsonWrapper -> {
+            List<Deposit> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEach((item) -> {
+                Deposit element = new Deposit();
+                element.setId(item.getString("id"));
+                element.setTxId(item.getString("txId"));
+                element.setAmount(item.getBigDecimal("amount"));
+                element.setCoin(item.getString("coin"));
+                element.setAddress(item.getString("address"));
+                element.setAddressTag(item.getString("addressTag"));
+                element.setInsertTime(item.getLong("insertTime"));
 
                 result.add(element);
             });

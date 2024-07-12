@@ -6,6 +6,7 @@ import com.binance.client.model.ResponseResult;
 import com.binance.client.model.market.*;
 import com.binance.client.model.enums.*;
 import com.binance.client.model.trade.*;
+import com.binance.client.model.wallet.Deposit;
 
 import java.util.List;
 
@@ -386,5 +387,7 @@ public interface SyncRequestClient {
      * @return Ack.
      */
     JSONObject autoCancelAllOrders(String symbol, Long countdownTime);
+
+    List<Deposit> getDepositHistory();
 
 }

@@ -6,6 +6,7 @@ import com.binance.client.model.ResponseResult;
 import com.binance.client.model.market.*;
 import com.binance.client.model.enums.*;
 import com.binance.client.model.trade.*;
+import com.binance.client.model.wallet.Deposit;
 
 import java.util.List;
 
@@ -259,5 +260,9 @@ public class SyncRequestImpl implements SyncRequestClient {
     @Override
     public List<TakerLongShortStat> getTakerLongShortRatio(String symbol, PeriodType period, Long startTime, Long endTime, Long limit) {
         return RestApiInvoker.callSync(requestImpl.getTakerLongShortRatio(symbol, period, startTime, endTime, limit));
+    }
+
+    public List<Deposit> getDepositHistory() {
+        return RestApiInvoker.callSync((requestImpl.getDepositHistory()));
     }
 }
