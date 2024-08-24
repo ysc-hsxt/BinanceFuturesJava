@@ -137,6 +137,12 @@ public interface SyncRequestClient {
     List<FundingRate> getFundingRate(String symbol, Long startTime, Long endTime, Integer limit);
 
     /**
+     * get funding rate info
+     * @return funding rate info for symbols
+     */
+    List<FundingInfo> getFundingInfo();
+
+    /**
      * Get 24 hour rolling window price change statistics.
      *
      * @return 24 hour rolling window price change statistics.

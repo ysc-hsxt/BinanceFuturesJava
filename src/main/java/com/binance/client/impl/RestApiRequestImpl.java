@@ -535,6 +535,29 @@ class RestApiRequestImpl {
         return request;
     }
 
+    RestApiRequest<List<FundingInfo>> getFundingInfo() {
+        RestApiRequest<List<FundingInfo>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build();
+        request.request = createRequestByGet("/fapi/v1/fundingInfo", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<FundingInfo> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEach(item -> {
+                FundingInfo element = new FundingInfo();
+                element.setSymbol(item.getString("symbol"));
+                element.setAdjustedFundingRateCap(item.getBigDecimal("adjustedFundingRateCap"));
+                element.setAdjustedFundingRateFloor(item.getBigDecimal("adjustedFundingRateFloor"));
+                element.setFundingIntervalHours(item.getInteger("fundingIntervalHours"));
+                element.setDisclaimer(item.getBoolean("disclaimer"));
+                result.add(element);
+            });
+
+            return result;
+        });
+        return request;
+    }
+
     RestApiRequest<List<PriceChangeTicker>> get24hrTickerPriceChange(String symbol) {
         RestApiRequest<List<PriceChangeTicker>> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
