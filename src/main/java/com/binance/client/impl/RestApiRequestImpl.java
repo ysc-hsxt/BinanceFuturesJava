@@ -814,6 +814,21 @@ class RestApiRequestImpl {
         return request;
     }
 
+    RestApiRequest<ResponseResult>changeMultiAssetsMargin(String multiAssetsMargin) {
+        RestApiRequest<ResponseResult> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("multiAssetsMargin", multiAssetsMargin);
+        request.request = createRequestByPostWithSignature("/fapi/v1/multiAssetsMargin", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            ResponseResult result = new ResponseResult();
+            result.setCode(jsonWrapper.getInteger("code"));
+            result.setMsg(jsonWrapper.getString("msg"));
+            return result;
+        });
+        return request;
+    }
+
     RestApiRequest<ResponseResult> changePositionSide(String dual) {
         RestApiRequest<ResponseResult> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()

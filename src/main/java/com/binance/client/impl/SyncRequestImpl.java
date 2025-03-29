@@ -138,6 +138,11 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
 
     @Override
+    public ResponseResult changeMultiAssetsMargin(String multiAssetsMargin) {
+        return RestApiInvoker.callSync(requestImpl.changeMultiAssetsMargin(multiAssetsMargin));
+    }
+
+    @Override
     public ResponseResult changeMarginType(String symbolName, MarginType marginType) {
         return RestApiInvoker.callSync(requestImpl.changeMarginType(symbolName, marginType));
     }

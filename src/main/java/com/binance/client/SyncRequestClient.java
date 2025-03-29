@@ -38,7 +38,7 @@ public interface SyncRequestClient {
      * @param secretKey The private key applied from binance.
      * @return The instance of synchronous client.
      */
-    static SyncRequestClient create(String apiKey, String secretKey) {
+    static SyncRequestClient create(String apiKey, String secretKey, String baseUrl) {
         return BinanceApiInternalFactory.getInstance().createSyncRequestClient(apiKey, secretKey, new RequestOptions());
     }
 
@@ -214,6 +214,9 @@ public interface SyncRequestClient {
      * @return ResponseResult.
      */
     ResponseResult changePositionSide(String dual);
+
+
+    ResponseResult changeMultiAssetsMargin(String multiAssetsMargin);
 
     /**
      * Change margin type (ISOLATED, CROSSED)
