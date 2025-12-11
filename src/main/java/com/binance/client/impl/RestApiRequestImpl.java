@@ -814,6 +814,62 @@ class RestApiRequestImpl {
         return request;
     }
 
+    RestApiRequest<AlgoOrder> postAlgoOrder(String symbol, OrderSide side, PositionSide positionSide, OrderType orderType,
+                                    TimeInForce timeInForce, String quantity, String reduceOnly, String price, String clientAlgoId,
+                                    String triggerPrice, String closePosition, String activationPrice, String callBackRate, WorkingType workingType, String priceProtect, NewOrderRespType newOrderRespType) {
+        RestApiRequest<AlgoOrder> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("algoType", "CONDITIONAL")
+                .putToUrl("symbol", symbol)
+                .putToUrl("side", side)
+                .putToUrl("positionSide", positionSide)
+                .putToUrl("type", orderType)
+                .putToUrl("timeInForce", timeInForce)
+                .putToUrl("quantity", quantity)
+                .putToUrl("price", price)
+                .putToUrl("triggerPrice", triggerPrice)
+                .putToUrl("workingType", workingType)
+                .putToUrl("closePosition", closePosition)
+                .putToUrl("priceProtect", priceProtect)
+                .putToUrl("reduceOnly", reduceOnly)
+                .putToUrl("activationPrice", activationPrice)
+                .putToUrl("callBackRate", callBackRate)
+                .putToUrl("clientAlgoId", clientAlgoId)
+                .putToUrl("newOrderRespType", newOrderRespType);
+
+        request.request = createRequestByPostWithSignature("/fapi/v1/algoOrder", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            AlgoOrder result = new AlgoOrder();
+            result.setAlgoId(jsonWrapper.getLong("algoId"));
+            result.setClientAlgoId(jsonWrapper.getString("clientAlgoId"));
+            result.setAlgoType(jsonWrapper.getString("algoType"));
+            result.setOrderType(jsonWrapper.getString("orderType"));
+            result.setSymbol(jsonWrapper.getString("symbol"));
+            result.setQuantity(jsonWrapper.getBigDecimal("quantity"));
+            result.setSelfTradePreventionMode(jsonWrapper.getString("selfTradePreventionMode"));
+            result.setPriceMatch(jsonWrapper.getString("priceMatch"));
+            result.setPrice(jsonWrapper.getBigDecimal("price"));
+            result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+            result.setSide(jsonWrapper.getString("side"));
+            result.setPositionSide(jsonWrapper.getString("positionSide"));
+            result.setAlgoStatus(jsonWrapper.getString("algoStatus"));
+            result.setTriggerPrice(jsonWrapper.getBigDecimal("triggerPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
+            result.setTimeInForce(jsonWrapper.getString("timeInForce"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            result.setCreateTime(jsonWrapper.getLong("createTime"));
+            result.setUpdateTime(jsonWrapper.getLong("updateTime"));
+            result.setWorkingType(jsonWrapper.getString("workingType"));
+
+            return result;
+        });
+        return request;
+    }
+
     RestApiRequest<ResponseResult>changeMultiAssetsMargin(String multiAssetsMargin) {
         RestApiRequest<ResponseResult> request = new RestApiRequest<>();
         UrlParamsBuilder builder = UrlParamsBuilder.build()
@@ -967,6 +1023,40 @@ class RestApiRequestImpl {
         UrlParamsBuilder builder = UrlParamsBuilder.build()
                 .putToUrl("symbol", symbol);
         request.request = createRequestByDeleteWithSignature("/fapi/v1/allOpenOrders", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            ResponseResult responseResult = new ResponseResult();
+            responseResult.setCode(jsonWrapper.getInteger("code"));
+            responseResult.setMsg(jsonWrapper.getString("msg"));
+            return responseResult;
+        });
+        return request;
+    }
+
+    RestApiRequest<CancelAlgoOrderResponseResult> cancelAlgoOrder(Long algoId, String clientAlgoId) {
+        RestApiRequest<CancelAlgoOrderResponseResult> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("algoid", algoId)
+                .putToUrl("clientalgoid", clientAlgoId);
+        request.request = createRequestByDeleteWithSignature("/fapi/v1/algoOrder", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            CancelAlgoOrderResponseResult responseResult = new CancelAlgoOrderResponseResult();
+            responseResult.setAlgoId(jsonWrapper.getLong("algoId"));
+            responseResult.setClientAlgoId(jsonWrapper.getString("clientAlgoId"));
+            responseResult.setCode(jsonWrapper.getInteger("code"));
+            responseResult.setMsg(jsonWrapper.getString("msg"));
+            return responseResult;
+        });
+
+        return request;
+    }
+
+    RestApiRequest<ResponseResult> cancelAllAlgoOpenOrder(String symbol) {
+        RestApiRequest<ResponseResult> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("symbol", symbol);
+        request.request = createRequestByDeleteWithSignature("/fapi/v1/algoOpenOrders", builder);
 
         request.jsonParser = (jsonWrapper -> {
             ResponseResult responseResult = new ResponseResult();
@@ -1175,6 +1265,92 @@ class RestApiRequestImpl {
                 if (item.containKey("priceRate")) {
                     o.setActivatePrice(item.getBigDecimal("priceRate"));
                 }
+                o.setUpdateTime(item.getLong("updateTime"));
+                o.setWorkingType(item.getString("workingType"));
+                o.setPriceProtect(item.getBoolean("priceProtect"));
+                result.add(o);
+            });
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<AlgoOrder> getAlgoOrder(Long algoId, String clientAlgoId) {
+        RestApiRequest<AlgoOrder> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("algoId", algoId)
+                .putToUrl("clientAlgoId", clientAlgoId);
+
+        request.request = createRequestByGetWithSignature("/fapi/v1/algoOrder", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            AlgoOrder result = new AlgoOrder();
+            result.setAlgoId(jsonWrapper.getLong("algoId"));
+            result.setClientAlgoId(jsonWrapper.getString("clientAlgoId"));
+            result.setAlgoType(jsonWrapper.getString("algoType"));
+            result.setOrderType(jsonWrapper.getString("orderType"));
+            result.setSymbol(jsonWrapper.getString("symbol"));
+            result.setQuantity(jsonWrapper.getBigDecimal("quantity"));
+            result.setSelfTradePreventionMode(jsonWrapper.getString("selfTradePreventionMode"));
+            result.setPriceMatch(jsonWrapper.getString("priceMatch"));
+            result.setPrice(jsonWrapper.getBigDecimal("price"));
+            result.setReduceOnly(jsonWrapper.getBoolean("reduceOnly"));
+            result.setSide(jsonWrapper.getString("side"));
+            result.setPositionSide(jsonWrapper.getString("positionSide"));
+            result.setAlgoStatus(jsonWrapper.getString("algoStatus"));
+            result.setActualOrderId(jsonWrapper.getString("actualOrderId"));
+            result.setActualPrice(jsonWrapper.getBigDecimal("actualPrice"));
+            result.setTriggerPrice(jsonWrapper.getBigDecimal("triggerPrice"));
+            result.setClosePosition(jsonWrapper.getBoolean("closePosition"));
+            result.setPriceProtect(jsonWrapper.getBoolean("priceProtect"));
+            result.setTimeInForce(jsonWrapper.getString("timeInForce"));
+            if (jsonWrapper.containKey("activatePrice")) {
+                result.setActivatePrice(jsonWrapper.getBigDecimal("activatePrice"));
+            }
+            result.setCreateTime(jsonWrapper.getLong("createTime"));
+            result.setUpdateTime(jsonWrapper.getLong("updateTime"));
+            result.setWorkingType(jsonWrapper.getString("workingType"));
+
+            return result;
+        });
+        return request;
+    }
+
+    RestApiRequest<List<AlgoOrder>> getOpenAlgoOrders(String symbol) {
+        RestApiRequest<List<AlgoOrder>> request = new RestApiRequest<>();
+        UrlParamsBuilder builder = UrlParamsBuilder.build()
+                .putToUrl("symbol", symbol);
+
+        request.request = createRequestByGetWithSignature("/fapi/v1/openAlgoOrders", builder);
+
+        request.jsonParser = (jsonWrapper -> {
+            List<AlgoOrder> result = new LinkedList<>();
+            JsonWrapperArray dataArray = jsonWrapper.getJsonArray("data");
+            dataArray.forEach((item) -> {
+                AlgoOrder o = new AlgoOrder();
+                o.setAlgoId(item.getLong("algoId"));
+                o.setClientAlgoId(item.getString("clientAlgoId"));
+                o.setAlgoType(item.getString("algoType"));
+                o.setOrderType(item.getString("orderType"));
+                o.setSymbol(item.getString("symbol"));
+                o.setQuantity(item.getBigDecimal("quantity"));
+                o.setSelfTradePreventionMode(item.getString("selfTradePreventionMode"));
+                o.setPriceMatch(item.getString("priceMatch"));
+                o.setPrice(item.getBigDecimal("price"));
+                o.setReduceOnly(item.getBoolean("reduceOnly"));
+                o.setSide(item.getString("side"));
+                o.setPositionSide(item.getString("positionSide"));
+                o.setAlgoStatus(item.getString("algoStatus"));
+                o.setActualOrderId(item.getString("actualOrderId"));
+                o.setActualPrice(item.getBigDecimal("actualPrice"));
+                o.setTriggerPrice(item.getBigDecimal("triggerPrice"));
+                o.setClosePosition(item.getBoolean("closePosition"));
+                o.setPriceProtect(item.getBoolean("priceProtect"));
+                o.setTimeInForce(item.getString("timeInForce"));
+                if (item.containKey("activatePrice")) {
+                    o.setActivatePrice(item.getBigDecimal("activatePrice"));
+                }
+                o.setCreateTime(item.getLong("createTime"));
                 o.setUpdateTime(item.getLong("updateTime"));
                 o.setWorkingType(item.getString("workingType"));
                 o.setPriceProtect(item.getBoolean("priceProtect"));

@@ -187,6 +187,11 @@ public interface SyncRequestClient {
                     String newClientOrderId, String stopPrice, String closePosition, String activationPrice,
                     String callbackRate, WorkingType workingType, String priceProtect, NewOrderRespType newOrderRespType);
 
+    AlgoOrder postAlgoOrder(String symbol, OrderSide side, PositionSide positionSide, OrderType orderType,
+                            TimeInForce timeInForce, String quantity, String price, String reduceOnly,
+                            String clientAlgoId, String triggerPrice, String closePosition, String activationPrice,
+                            String callbackRate, WorkingType workingType, String priceProtect, NewOrderRespType newOrderRespType);
+
     /**
      * Cancel an active order.
      *
@@ -207,6 +212,10 @@ public interface SyncRequestClient {
      * @return Order.
      */
     List<Object> batchCancelOrders(String symbol, String orderIdList, String origClientOrderIdList);
+
+    CancelAlgoOrderResponseResult cancelAlgoOrder(Long algoId, String clientAlgoId);
+
+    ResponseResult cancelAllAlgoOpenOrder(String symbol);
 
     /**
      * Switch position side. (true == dual, false == both)
@@ -274,6 +283,12 @@ public interface SyncRequestClient {
      * @return Open orders.
      */
     List<Order> getOpenOrders(String symbol);
+
+
+    AlgoOrder getAlgoOrder(Long algoId, String clientAlgoId);
+
+
+    List<AlgoOrder> getOpenAlgoOrders(String symbol);
 
     /**
      * Get all account orders; active, canceled, or filled.

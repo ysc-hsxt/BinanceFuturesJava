@@ -118,6 +118,16 @@ public class SyncRequestImpl implements SyncRequestClient {
     }
 
     @Override
+    public AlgoOrder postAlgoOrder(String symbol, OrderSide side, PositionSide positionSide, OrderType orderType,
+                           TimeInForce timeInForce, String quantity, String price, String reduceOnly,
+                           String clientAlgoId, String triggerPrice, String closePosition, String activationPrice,
+                           String callbackRate, WorkingType workingType, String priceProtect, NewOrderRespType newOrderRespType) {
+        return RestApiInvoker.callSync(requestImpl.postAlgoOrder(symbol, side, positionSide, orderType,
+                timeInForce, quantity, reduceOnly, price, clientAlgoId, triggerPrice,
+                closePosition, activationPrice, callbackRate, workingType, priceProtect, newOrderRespType));
+    }
+
+    @Override
     public Order cancelOrder(String symbol, Long orderId, String origClientOrderId) {
         return RestApiInvoker.callSync(requestImpl.cancelOrder(symbol, orderId, origClientOrderId));
     }
@@ -125,6 +135,16 @@ public class SyncRequestImpl implements SyncRequestClient {
     @Override
     public ResponseResult cancelAllOpenOrder(String symbol) {
       return RestApiInvoker.callSync(requestImpl.cancelAllOpenOrder(symbol));
+    }
+
+    @Override
+    public CancelAlgoOrderResponseResult cancelAlgoOrder(Long algoId, String clientAlgoId) {
+        return RestApiInvoker.callSync(requestImpl.cancelAlgoOrder(algoId, clientAlgoId));
+    }
+
+    @Override
+    public ResponseResult cancelAllAlgoOpenOrder(String symbol) {
+        return RestApiInvoker.callSync(requestImpl.cancelAllAlgoOpenOrder(symbol));
     }
 
     @Override
@@ -185,6 +205,16 @@ public class SyncRequestImpl implements SyncRequestClient {
     @Override
     public List<Order> getAllOrders(String symbol, Long orderId, Long startTime, Long endTime, Integer limit) {
         return RestApiInvoker.callSync(requestImpl.getAllOrders(symbol, orderId, startTime, endTime, limit));
+    }
+
+    @Override
+    public AlgoOrder getAlgoOrder(Long algoId, String clientAlgoId){
+        return RestApiInvoker.callSync(requestImpl.getAlgoOrder(algoId, clientAlgoId));
+    }
+
+    @Override
+    public List<AlgoOrder> getOpenAlgoOrders(String symbol) {
+        return RestApiInvoker.callSync(requestImpl.getOpenAlgoOrders(symbol));
     }
 
     @Override
